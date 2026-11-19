@@ -1,0 +1,298 @@
+﻿Assignment 9 - Category: 009
+Requirement Video: A9 Cat-9.mp4
+________________
+PizzaHub — Pizza Ordering & Delivery Platform
+Dear Candidates,
+We are pleased to inform you that you have successfully passed the first round of the selection process!! 🎉
+Your application and skills have impressed us, and we are excited to move forward with you in the next stages. We are excited to have you explore this opportunity with us. This project is designed to assess your skills, creativity, and problem-solving abilities. It will help us understand how you approach challenges and your ability to deliver high-quality solutions.
+Project Name
+PizzaHub — Pizza Ordering & Delivery Platform
+Project Overview and Discussion
+What is the project?
+PizzaHub is a pizza ordering and delivery platform. Customers discover local pizza shops, browse their menus, and place food orders. Restaurants (vendors) create profiles, publish menu items (pizzas, sides, drinks), and manage incoming orders. Admins manage users, review published menu items, and monitor platform transactions.
+Why should we develop it?
+It is a complete, realistic, role-based web application. It tests your skills in authentication, authorization, database design, payment integration, and real-world business rules. Build PizzaHub as a functional pizza ordering platform, not just a collection of static pages.
+
+How the system works
+Role
+	What they can do
+	Customer
+	Browse, search, and filter menu items; view item details; submit orders with a delivery date and address; track order status; cancel pending orders; use the Customer Dashboard
+	Vendor (Restaurant)
+	Create and manage the restaurant profile; add, update, and delete menu items; view customer orders and accept or reject them; manage the subscription plan; use the Vendor Dashboard
+	Admin
+	Manage registered users (vendors and customers); review and manage published menu items; view platform transactions; use the Admin Dashboard
+	Vendors can upgrade to a Premium subscription to publish unlimited menu items and get promotional benefits: featured placement on the homepage and a "Premium" badge.
+Similar websites
+* Uber Eats (Pizza category)
+* DoorDash
+* Foodpanda
+* Domino's / Pizza Hut online ordering
+Ensure the Following Things to Get 100% Mark
+* ☐ At least 20 meaningful commits on the client side and 12 on the server side, with descriptive messages (no meaningless commits)
+* ☐ Separate GitHub repositories for client and server
+* ☐ README file with the project name and description, important features, technology stack (npm packages used), installation steps, how to run locally, live website link, client and server repository links, and environment variable names
+* ☐ Better Auth configuration secured with environment variables
+* ☐ MongoDB credentials secured with environment variables
+* ☐ Stripe keys, Google OAuth credentials, and ImgBB API key secured with environment variables
+* ☐ Never push .env files or secret credentials to GitHub
+* ☐ A design that encourages recruiters: pleasing color contrast, proper alignment and spacing, a professional look
+* ☐ Fully responsive design with professional UI/UX
+* ☐ Proper error handling
+* ☐ Server-side role verification on all protected APIs
+* ☐ Premium access activated only after a verified Stripe webhook event
+* ☐ No reload issues on production routes
+* ☐ Original work. If your project is found similar to any project of your module, conceptual session, or assignment, you will get 0 and may miss the chance of upcoming rewards.
+Deployment Guideline
+If your deployment is not okay, you will get 0 and may miss the chance of our upcoming rewards.
+* Your server must work perfectly in production: no CORS, 404, or 504 errors
+* Your live link must work perfectly and must not show errors on landing
+* ⚠️ The page must not throw any error when reloaded from any route
+* ⚠️ A logged-in user must not be redirected to Login when reloading a private route
+* Stripe Checkout and the webhook flow must work on the live site
+* The admin credentials you provide must work on the live site
+Layout & Page Structure
+Navbar
+* Logo / name: PizzaHub
+* Public (logged out): Home, Browse Menu, Sign In, Sign Up
+* Logged in: Home, Browse Menu, and relevant links based on the user's role
+* Profile dropdown: user name and profile image, Dashboard, Profile Settings, Logout
+* The navbar must update immediately after the authentication state changes
+Footer
+* Logo and short description
+* Important navigation links
+* Contact information
+* Social media links
+* Copyright information
+All pages
+Type
+	Pages
+	Public
+	Home, Browse Menu, Sign In, Sign Up
+	Private
+	Item Details (/menu/[id], redirect to Sign In if not logged in), Dashboard, Profile Settings, Payment Success, Payment Cancel
+	Vendor Dashboard
+	Overview, My Menu Items, Add Menu Item, Customer Orders, Subscription, Profile Settings
+	Customer Dashboard
+	Overview, My Orders, Profile Settings
+	Admin Dashboard
+	Overview, Manage Users, Manage Menu Items, Transactions
+	Users must not be able to open another role's dashboard by changing the URL manually.
+
+
+
+
+
+
+
+Authentication System
+Use Better Auth.
+Sign Up
+* Fields: Full Name, Email, Password, Profile Image (optional, can be skipped), Account Role
+* Role selection: Vendor (Restaurant Owner) or Customer
+* Password rules: minimum 6 characters, one uppercase letter, one lowercase letter
+* Email and password registration, plus Google authentication
+* Success and error messages, then redirect to the appropriate page
+* Security: Admin accounts must not be created through public registration. Admin access must be assigned securely.
+Sign In
+* Fields: Email and Password
+* Credential login and Google login
+* Success and error messages
+* After login, redirect users according to their role
+Protected routes
+* All dashboard routes are protected
+* Only Admin can open the Admin Dashboard, only Vendors the Vendor Dashboard, only Customers the Customer Dashboard
+* Unauthenticated users are redirected to Sign In
+* Blocked users must not access protected platform features
+* Role verification must also be done on the server. Hiding dashboard links on the frontend is not enough.
+Home Page
+Banner section
+* Clear headline (example: "Hot & Fresh Pizza Delivered to Your Door")
+* Short description
+* CTA button: Explore Pizza Menu
+* Pizza-themed background image or illustration
+Dynamic section 1: Featured Menu Items
+* Show at least 6 items from the database, only approved and active ones
+* Card data: item image, name, category, price, location (restaurant area / city), vendor info, and a View Details button
+Dynamic section 2: Pizza Categories
+Users can explore items by category:
+1. Classic Pizzas
+2. Vegetarian Pizzas
+3. Meat Lovers
+4. Specialty / Gourmet Pizzas
+5. Sides & Appetizers
+6. Beverages & Desserts
+Extra sections (2 required)
+* Required: Why Choose PizzaHub? (a custom section on the benefits)
+* Choose any one: How PizzaHub Works, Popular Pizza Combos, Customer Testimonials, or Pizza Lovers' Tips
+Animation
+Implement Framer Motion / Motion animations on suitable homepage sections. They must be smooth and must not hurt the user experience.
+Browse Menu and Item Details Pages
+Browse Menu (public)
+* Anyone can browse without logging in
+* Responsive card layout of approved and active items: image, name, category, price, location, vendor info, View Details button
+* Search by name, filter by category and by location
+* Loading state and empty state
+* If a logged-out user clicks View Details or tries to order, redirect to Sign In
+Item Details (/menu/[id])
+* Show: item name, multiple images, category, description, price, location, vendor info, Order option
+* Customers must be logged in to order
+* Vendors cannot order their own items; Admins cannot place customer orders
+* Invalid item IDs show an appropriate error message
+* Only approved and active items can be ordered
+Dashboard Layout (Each requirement contains 1-5 marks)
+Create a separate dashboard layout with a sidebar and a main content area. Navigation is based on the logged-in user's role.
+Vendor Dashboard
+Overview: total menu items, active menu items, pending customer orders, accepted orders, current subscription plan.
+Add Menu Item (Create)
+* Fields: Item Name, Category, Description, Price, Location (area / city), Item Image (required, must be uploaded as a file using ImgBB)
+* Vendor must be authenticated, and required fields are validated
+* Saved in the menuItems collection with default status Pending until an admin approves
+* Free plan: max 3 active items. Premium: unlimited.
+My Menu Items (Read, Update, Delete)
+* Shows only the vendor's own items with approval status
+* Vendor can view details, update, delete, and manage availability
+* A rejected item must never be visible to customers
+Customer Orders
+* Show: customer info, item info, delivery date, delivery address, customer message, order status
+* Actions: Accept or Reject
+* Only pending orders can be accepted or rejected, and only once
+* Vendors cannot modify orders that belong to other vendors
+Subscription
+Plan
+	What you get
+	Free
+	Max 3 active menu items, basic vendor dashboard, order management
+	Premium
+	Unlimited active items, Premium vendor badge, featured menu placement, all Free features
+	Include an Upgrade to Premium button.
+Customer Dashboard
+Overview: total, pending, accepted, and rejected orders.
+My Orders
+* Show: item name and image, vendor info, delivery date, delivery address, order status, request date
+* Customer can view order details and cancel pending orders
+* Customers cannot change or cancel another customer's order, and cannot cancel an order that is already accepted, rejected, or cancelled
+Admin Dashboard
+Overview: total registered users, total vendors, total customers, total menu items, pending menu items, total transactions.
+Manage Users
+* View all users and user details
+* Search by name or email, filter by role
+* Block and Unblock users (blocked users cannot use protected features)
+Manage Menu Items
+* View, search, and filter all submitted items
+* Review pending items, then approve or reject
+* Change the status of published items when needed
+* Delete inappropriate items
+* Only approved and active items show on the public Browse Menu
+Transactions
+* Show: vendor info, subscription plan, payment amount, payment status, transaction date
+* Admin must not be able to edit payment records (for example, to mark a failed payment as successful)
+Order Management System
+When a customer clicks Order on the details page, show an order form.
+* Fields: Delivery Date, Delivery Address, Additional Message / Special Instructions
+* Detected automatically: customer, selected vendor, selected menu item
+* Saved in the orders collection, default status Pending
+* Statuses: Pending, Accepted, Rejected, Cancelled
+* Prevent customers from ordering their own items (if they are also a vendor)
+* Prevent duplicate active orders for the same item and delivery date
+* Show clear success and error messages
+Payment System (Stripe Checkout)
+Vendors must upgrade to Premium before publishing more than 3 active items.
+1. Vendor clicks Upgrade to Premium
+2. Backend creates a Stripe Checkout Session
+3. Vendor is redirected to the Stripe Checkout page
+4. Success leads to the Payment Success page
+5. Cancel leads to the Payment Cancel page
+After payment: show confirmation, save the transaction in the transactions collection, and update the subscription only after verified payment confirmation.
+
+ইউজাররা যখন পিজ্জা সিলেক্ট করে পেমেন্ট করতে যাবেন, তখন Stripe Payment ইন্টিগ্রেশন করার প্রয়োজন নেই। সেখানে শুধু একটি বাটন দেখালেই হবে 
+শুধুমাত্র ভেন্ডরদের সাবস্ক্রিপশন পেমেন্টের জন্য Stripe ব্যবহার করতে হবে।
+
+Payment security
+* Do not trust the frontend success redirect to activate Premium
+* Verify payment events with Stripe webhooks
+* Keep Stripe secret keys on the server and do not expose sensitive payment information
+* Prevent users from creating subscription sessions for other vendors
+* Handle subscription cancellation and expiration properly
+Profile Management
+Vendors and Customers can update their name, profile image (optional), and other editable information, with success and error messages. Users must not be able to change their own role or subscription status through profile updates.
+Backend security (JWT)
+* Generate or obtain a JWT for authenticated users and store/send it securely
+* Middleware to verify JWT tokens, and role-based middleware for Admin, Vendor, and Customer
+* Protect all private API routes
+* Verify resource ownership before any update or delete
+* Validate request data on the server
+* Never trust user IDs or roles sent by the client, and never rely only on frontend role checks
+* Return 401 for unauthorized and 403 for forbidden requests
+Database design (MongoDB)
+Better Auth manages its own auth collections. Use these four business collections with proper references. Do not create unnecessary collections.
+Collection
+	Fields
+	users (Better Auth)
+	name, email, image, role (vendor / customer / admin), isBlocked, businessName (vendor only), subscriptionPlan (free / premium), subscriptionExpiresAt
+	menuItems
+	vendorId (ref: users), itemName, category, description, price, location, images, status (pending / approved / rejected / inactive), createdAt
+	orders
+	itemId (ref: menuItems), vendorId (ref: users), customerId (ref: users), deliveryDate, deliveryAddress, message, status (pending / accepted / rejected / cancelled), createdAt
+	transactions
+	vendorId (ref: users), plan, amount, currency, stripeSessionId, stripeSubscriptionId, status, createdAt
+	Additional
+Loading page and states
+Show a meaningful loader when fetching menu items, loading dashboard data, submitting forms, processing orders, and processing payments.
+Error page and error handling
+Handle: invalid routes (custom 404 page), failed API requests, invalid form submissions, unauthorized access, missing database records, and failed image uploads.
+Other requirements
+* Use toast notifications for success and error. Do not use browser alert().
+* All buttons and navigation links must work correctly.
+UI Design Requirements
+* Unique design: decide what kind of website you want to make, then search online or use sites like ThemeForest for ideas. Your design must not be similar to any project from your modules or conceptual sessions.
+* Pizza theme: professional pizza-themed interface with warm reds, oranges, and cream backgrounds
+* Keep the main heading style (font, size, color) consistent across all sections
+* Keep paragraph spacing balanced and text easy to read
+* Maintain uniform image sizes and spacing
+* Use the same button style as on the home page
+* Good spacing and proper alignment everywhere
+* Navbar logo/heading keeps the same style and size as on the home page
+* Use a grid layout with equal image sizes
+* Keep all cards equal in height and width (especially in menu item sections)
+* Use the new X logo instead of the old Twitter bird
+* Use ShadCN components appropriately, and build reusable components
+* Avoid unnecessary animations and visual clutter
+* Responsive on mobile, tablet, and desktop
+Dashboard UI requirements
+* Responsive design for mobile and tablet screens
+* Consistent color theme
+* Full-width dashboard with sidebar navigation and role-based links
+* Statistics cards, plus charts and graphs for quick data visualization
+* User profile section
+Resources
+* UIverse
+* DevMeetsDevs
+* Free images and resources collection for websites
+* ThemeForest
+* CodeCanyon
+Challenge Requirements
+1. Advanced search and sorting: advanced menu item search, plus sorting by price in ascending and descending order
+2. JWT / token verification: proper JWT verification middleware on the Express backend. Protected routes must reject invalid or expired tokens.
+3. Improve the website's overall appearance to make it look more professional.
+Implementation note: describe how you built each challenge (API query parameters and middleware flow) in your README.
+Tech Stack
+* Frontend: Next.js (App Router), ShadCN UI, TypeScript/JavaScript, Framer Motion / Motion
+* Authentication and authorization: Better Auth, MongoDB adapter, JWT with role-based authentication, Google OAuth
+* Backend: Express.js, MongoDB, TypeScript/JavaScript(any)
+* Payment: Stripe Checkout with webhooks
+* Image hosting: ImgBB (required only for menu item images; optional elsewhere)
+Optional Requirements (2-5)
+These help energetic candidates stand out. Pick at least 2:
+1. Reviews and ratings for menu items and restaurants
+2. Dark / light mode toggle
+3. Order status timeline on the order details page
+4. Favorites / wishlist for customers
+5. Email notification when an order is accepted or rejected
+What to Submit
+* Admin Email:
+* Admin Password:
+* Live Site Link:
+* GitHub Repository (Server):
+* GitHub Repository (Client):
+* Additional instructions needed to test the application (for example, the Stripe test card to use)
