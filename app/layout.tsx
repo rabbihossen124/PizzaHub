@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Oswald, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
@@ -7,14 +7,18 @@ import { Footer } from "@/components/layout/footer";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({
+// Display font for bold pizzeria headings (Caferio Theme style)
+const oswald = Oswald({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-heading",
+  weight: ["400", "500", "600", "700"],
 });
 
-const fontMono = Geist_Mono({
+// Modern high-legibility body font
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +36,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, geist.variable)}
+      className={cn("antialiased", oswald.variable, jakarta.variable)}
     >
       <body className="min-h-screen bg-background text-foreground flex flex-col font-sans">
         <ThemeProvider>

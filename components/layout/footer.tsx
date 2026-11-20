@@ -7,6 +7,9 @@ import {
   Mail,
   Clock,
   Heart,
+  Send,
+  Sparkles,
+  Flame,
 } from "lucide-react";
 
 /**
@@ -45,46 +48,75 @@ function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
-      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-    </svg>
-  );
-}
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-border/80 bg-card/60 backdrop-blur-md transition-colors">
-      {/* Main Footer Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Brand & Mission Column */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2 group select-none">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary via-rose-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-primary/20">
-                <Pizza className="w-5 h-5 transition-transform group-hover:rotate-12" />
+    <footer className="w-full bg-[#0d0c0b] text-[#eae7e2] border-t-2 border-amber-500/20 transition-colors">
+      {/* 1. Caferio-Style Newsletter Strip */}
+      <div className="border-b border-[#242220] py-8 bg-[#141312]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4 text-center lg:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-primary to-amber-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+                <Flame className="w-6 h-6 animate-pulse" />
+              </div>
+              <div>
+                <h4 className="font-heading text-xl sm:text-2xl font-bold tracking-wide uppercase text-white">
+                  Join The PizzaHub VIP Club
+                </h4>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Get secret discounts, 20% OFF vouchers, and weekly artisan chef specials directly to your inbox.
+                </p>
+              </div>
+            </div>
+
+            {/* Newsletter Input */}
+            <div className="flex w-full lg:w-auto max-w-md items-center gap-2">
+              <input
+                type="email"
+                placeholder="Enter your email address..."
+                className="h-12 w-full lg:w-72 rounded-xl bg-[#201e1c] border border-border/60 px-4 text-sm text-white placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+              />
+              <button
+                type="button"
+                className="h-12 px-6 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary/90 hover:to-rose-500 font-heading tracking-wider uppercase font-bold text-white text-sm shrink-0 flex items-center gap-2 shadow-lg shadow-primary/20 transition-transform active:scale-95"
+              >
+                <span>Subscribe</span>
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Footer Content */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
+          {/* Brand & Description */}
+          <div className="lg:col-span-2 space-y-5">
+            <Link href="/" className="flex items-center gap-3 select-none">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-primary via-rose-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                <Pizza className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="font-extrabold text-xl tracking-tight leading-none text-foreground flex items-center">
-                  Pizza<span className="text-primary">Hub</span>
+                <span className="font-heading font-extrabold text-2xl tracking-wide uppercase text-white">
+                  PIZZA<span className="text-primary font-black ml-0.5">HUB</span>
                 </span>
-                <span className="text-[10px] tracking-wider uppercase font-semibold text-muted-foreground leading-tight">
-                  Hot & Fast Delivery
+                <span className="text-[10px] tracking-widest uppercase font-bold text-amber-500 leading-tight">
+                  Artisan Pizza Platform
                 </span>
               </div>
             </Link>
 
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              PizzaHub is your ultimate pizza ordering platform connecting food lovers with local artisan pizzerias. Hot, fresh, and stone-baked right to your doorstep.
+            <p className="text-sm text-[#a39f99] leading-relaxed max-w-sm">
+              PizzaHub is a complete role-based pizza ordering and restaurant delivery network connecting pizza lovers with genuine local kitchens, hand-stretched sourdough, and 100% whole-milk mozzarella.
             </p>
 
             {/* Social Media Links with Official New X Logo */}
             <div className="pt-2">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">
-                Follow Our Kitchen
+              <p className="font-heading text-xs font-bold text-amber-400 uppercase tracking-wider mb-3">
+                Follow PizzaHub Kitchens
               </p>
               <div className="flex items-center gap-3">
                 <a
@@ -92,7 +124,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Follow PizzaHub on X"
-                  className="w-9 h-9 rounded-xl border border-border bg-background hover:bg-primary hover:text-white hover:border-primary flex items-center justify-center transition-all duration-200 text-muted-foreground shadow-sm"
+                  className="w-10 h-10 rounded-xl border border-amber-500/20 bg-[#1c1a18] hover:bg-primary hover:text-white hover:border-primary flex items-center justify-center transition-all duration-200 text-[#d4cfc7] shadow-sm hover:scale-105"
                 >
                   <XIcon className="w-4 h-4" />
                 </a>
@@ -101,7 +133,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Follow PizzaHub on Facebook"
-                  className="w-9 h-9 rounded-xl border border-border bg-background hover:bg-blue-600 hover:text-white hover:border-blue-600 flex items-center justify-center transition-all duration-200 text-muted-foreground shadow-sm"
+                  className="w-10 h-10 rounded-xl border border-amber-500/20 bg-[#1c1a18] hover:bg-blue-600 hover:text-white hover:border-blue-600 flex items-center justify-center transition-all duration-200 text-[#d4cfc7] shadow-sm hover:scale-105"
                 >
                   <FacebookIcon className="w-4 h-4" />
                 </a>
@@ -110,7 +142,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Follow PizzaHub on Instagram"
-                  className="w-9 h-9 rounded-xl border border-border bg-background hover:bg-pink-600 hover:text-white hover:border-pink-600 flex items-center justify-center transition-all duration-200 text-muted-foreground shadow-sm"
+                  className="w-10 h-10 rounded-xl border border-amber-500/20 bg-[#1c1a18] hover:bg-pink-600 hover:text-white hover:border-pink-600 flex items-center justify-center transition-all duration-200 text-[#d4cfc7] shadow-sm hover:scale-105"
                 >
                   <InstagramIcon className="w-4 h-4" />
                 </a>
@@ -119,18 +151,9 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Watch PizzaHub on YouTube"
-                  className="w-9 h-9 rounded-xl border border-border bg-background hover:bg-red-600 hover:text-white hover:border-red-600 flex items-center justify-center transition-all duration-200 text-muted-foreground shadow-sm"
+                  className="w-10 h-10 rounded-xl border border-amber-500/20 bg-[#1c1a18] hover:bg-red-600 hover:text-white hover:border-red-600 flex items-center justify-center transition-all duration-200 text-[#d4cfc7] shadow-sm hover:scale-105"
                 >
                   <YoutubeIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="View on GitHub"
-                  className="w-9 h-9 rounded-xl border border-border bg-background hover:bg-foreground hover:text-background hover:border-foreground flex items-center justify-center transition-all duration-200 text-muted-foreground shadow-sm"
-                >
-                  <GithubIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -138,128 +161,101 @@ export function Footer() {
 
           {/* Quick Navigation Links */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Explore Menu
+            <h3 className="font-heading text-base font-bold uppercase tracking-wider text-amber-400">
+              EXPLORE MENU
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm text-[#b8b3ab]">
               <li>
-                <Link
-                  href="/menu"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Browse Full Menu
+                <Link href="/menu" className="hover:text-primary transition-colors flex items-center gap-1.5">
+                  <span>Browse Full Menu</span>
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/menu?category=Classic+Pizzas"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link href="/menu?category=Classic+Pizzas" className="hover:text-primary transition-colors">
                   Classic Pizzas
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/menu?category=Meat+Lovers"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link href="/menu?category=Meat+Lovers" className="hover:text-primary transition-colors">
                   Meat Lovers
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/menu?category=Vegetarian+Pizzas"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link href="/menu?category=Vegetarian+Pizzas" className="hover:text-primary transition-colors">
                   Vegetarian Pizzas
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/menu?category=Beverages+%26+Desserts"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Sides & Beverages
+                <Link href="/menu?category=Specialty+%2F+Gourmet+Pizzas" className="hover:text-primary transition-colors">
+                  Specialty Gourmet
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Business & Partners Column */}
+          {/* Restaurant Partners */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              For Restaurants
+            <h3 className="font-heading text-base font-bold uppercase tracking-wider text-amber-400">
+              RESTAURANT PARTNERS
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm text-[#b8b3ab]">
               <li>
-                <Link
-                  href="/signup"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Register as a Vendor
+                <Link href="/signup" className="hover:text-primary transition-colors">
+                  Register Restaurant (Vendor)
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/dashboard/vendor"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Vendor Studio
+                <Link href="/dashboard/vendor" className="hover:text-primary transition-colors">
+                  Vendor Studio & Orders
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/signin"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link href="/signin" className="hover:text-primary transition-colors">
                   Restaurant Sign In
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/menu"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Vendor Subscription Plans
+                <Link href="/dashboard/vendor" className="hover:text-primary transition-colors">
+                  Premium Subscription Upgrade
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact & Hours Column */}
+          {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Get in Touch
+            <h3 className="font-heading text-base font-bold uppercase tracking-wider text-amber-400">
+              RESTAURANT CONTACT
             </h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
+            <ul className="space-y-3.5 text-sm text-[#b8b3ab]">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                 <span>124 Pizza Avenue, Food District, Dhaka 1212</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-primary shrink-0" />
-                <span>+880 1700-PIZZA (74992)</span>
+                <span className="font-bold text-white">+880 1700-PIZZA (74992)</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
                 <span>support@pizzahub.com</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-primary shrink-0" />
-                <span>Mon - Sun: 10:00 AM - 11:30 PM</span>
+                <Clock className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>Daily: 10:00 AM - 11:30 PM</span>
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      {/* Bottom Legal & Copyright Bar */}
-      <div className="border-t border-border/60 py-6 bg-background/50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p className="flex items-center gap-1 text-center sm:text-left">
-            <span>© {currentYear} PizzaHub Platform. Baked with</span>
+      {/* 3. Bottom Legal Bar */}
+      <div className="border-t border-[#201e1c] py-6 bg-[#080707]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8c8882]">
+          <p className="flex items-center gap-1.5 text-center sm:text-left">
+            <span>© {currentYear} PizzaHub Platform. Artisan stone-baked with</span>
             <Heart className="w-3.5 h-3.5 text-primary fill-primary inline-block" />
-            <span>for pizza lovers worldwide.</span>
+            <span>in Dhaka, Bangladesh.</span>
           </p>
 
           <div className="flex items-center gap-6">
@@ -270,7 +266,7 @@ export function Footer() {
               Terms of Service
             </Link>
             <Link href="/" className="hover:text-primary transition-colors">
-              Security
+              Food Hygiene Certified
             </Link>
           </div>
         </div>
