@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar } from "@/components/layout/navbar";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +35,8 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-background text-foreground flex flex-col font-sans">
         <ThemeProvider>
-          {children}
+          <Navbar />
+          <main className="flex-1 flex flex-col">{children}</main>
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>
