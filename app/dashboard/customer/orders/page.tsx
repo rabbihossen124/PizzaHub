@@ -23,6 +23,8 @@ import {
   Truck,
   Building2,
   Mail,
+  Receipt,
+  Printer,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-helpers";
 import { toast } from "sonner";
@@ -71,6 +73,7 @@ export default function CustomerOrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [cancellingOrder, setCancellingOrder] = useState<CustomerOrder | null>(null);
+  const [receiptOrder, setReceiptOrder] = useState<CustomerOrder | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
 
   // Fetch orders from backend
@@ -147,6 +150,10 @@ export default function CustomerOrdersPage() {
     } finally {
       setIsCancelling(false);
     }
+  };
+
+  const handlePrintReceipt = () => {
+    window.print();
   };
 
   return (
@@ -515,39 +522,44 @@ export default function CustomerOrdersPage() {
                     {new Date(ord.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </div>
 
-                  {/* Actions */}
-                  {isPending && (
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                    {/* View Receipt Button */}
                     <button
-                      onClick={() => setCancellingOrder(ord)}
-                      className="py-2 px-4 rounded-xl border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+                      onClick={() => setReceiptOrder(ord)}
+                      className="py-2 px-3.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <X className="w-3.5 h-3.5" />
-                      <span>Cancel Order</span>
+                      <Receipt className="w-3.5 h-3.5 text-amber-500" />
+                      <span>Receipt</span>
                     </button>
-                  )}
 
-                  {isRejected && (
-                    <Link
-                      href="/menu"
-                      className="py-2 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow"
-                    >
-                      <Pizza className="w-3.5 h-3.5" />
-                      <span>Order Alternative Pizza</span>
-                    </Link>
-                  )}
+                    {isPending && (
+                      <button
+                        onClick={() => setCancellingOrder(ord)}
+                        className="py-2 px-4 rounded-xl border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Cancel Order</span>
+                      </button>
+                    )}
 
-                  {isAccepted && (
-                    <div className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Order confirmed & scheduled for {ord.deliveryDate}</span>
-                    </div>
-                  )}
+                    {isRejected && (
+                      <Link
+                        href="/menu"
+                        className="py-2 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow"
+                      >
+                        <Pizza className="w-3.5 h-3.5" />
+                        <span>Order Alternative</span>
+                      </Link>
+                    )}
 
-                  {isCancelled && (
-                    <div className="text-xs font-semibold text-stone-400">
-                      Cancelled by Customer
-                    </div>
-                  )}
+                    {isAccepted && (
+                      <div className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>Baking for {ord.deliveryDate}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -591,6 +603,171 @@ export default function CustomerOrdersPage() {
                   <X className="w-4 h-4" />
                 )}
                 <span>Confirm Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* 7. Official Printable Order Receipt Modal */}
+      {/* ============================================================== */}
+      {receiptOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-white dark:bg-stone-900 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800 p-6 sm:p-8 space-y-6 my-8">
+            {/* Top Close & Print */}
+            <div className="flex items-center justify-between pb-4 border-b border-stone-200 dark:border-stone-800 print:hidden">
+              <div className="flex items-center gap-2">
+                <Receipt className="w-5 h-5 text-red-600" />
+                <span className="font-bold text-xs uppercase tracking-wider text-stone-500 dark:text-stone-400">
+                  Official PizzaHub Invoice Receipt
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrintReceipt}
+                  className="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 text-xs font-bold uppercase tracking-wider text-stone-800 dark:text-stone-200 flex items-center gap-1.5 cursor-pointer"
+                  title="Print Invoice"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print</span>
+                </button>
+                <button
+                  onClick={() => setReceiptOrder(null)}
+                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-600 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Receipt Printable Area */}
+            <div className="space-y-6" id="printable-receipt">
+              {/* Receipt Header */}
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12">
+                    <Image
+                      src="/pizza-logo.png"
+                      alt="PizzaHub"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-black uppercase tracking-tight text-stone-900 dark:text-white font-[family-name:var(--font-heading)] leading-none">
+                      PIZZA<span className="text-red-600">HUB</span>
+                    </h2>
+                    <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest block mt-0.5">
+                      Artisan Wood-Fired Kitchens
+                    </span>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <span className="text-[10px] uppercase font-bold text-stone-400 block">
+                    Invoice Receipt #
+                  </span>
+                  <span className="font-mono text-sm font-black text-stone-900 dark:text-white">
+                    {receiptOrder._id.slice(-8).toUpperCase()}
+                  </span>
+                  <span className="text-[10px] text-stone-400 block mt-0.5">
+                    {new Date(receiptOrder.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* Vendor & Customer Info Grid */}
+              <div className="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-700/60 text-xs">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
+                    Billed To:
+                  </span>
+                  <div className="font-bold text-stone-900 dark:text-white">
+                    {receiptOrder.customerName}
+                  </div>
+                  <div className="text-stone-500 dark:text-stone-400">
+                    {receiptOrder.customerEmail}
+                  </div>
+                  <div className="text-stone-600 dark:text-stone-300 mt-1 line-clamp-2">
+                    {receiptOrder.deliveryAddress}
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
+                    Pizzeria Kitchen:
+                  </span>
+                  <div className="font-bold text-stone-900 dark:text-white">
+                    {receiptOrder.vendorName}
+                  </div>
+                  <div className="text-stone-500 dark:text-stone-400">
+                    {receiptOrder.vendorEmail}
+                  </div>
+                  <div className="text-amber-600 dark:text-amber-400 font-bold mt-1">
+                    Delivery Date: {receiptOrder.deliveryDate}
+                  </div>
+                </div>
+              </div>
+
+              {/* Line Items Table */}
+              <div className="border rounded-2xl border-stone-200 dark:border-stone-800 overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 uppercase font-bold text-[10px]">
+                    <tr>
+                      <th className="py-2.5 px-3">Item</th>
+                      <th className="py-2.5 px-3 text-center">Qty</th>
+                      <th className="py-2.5 px-3 text-right">Price</th>
+                      <th className="py-2.5 px-3 text-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-100 dark:divide-stone-800 text-stone-700 dark:text-stone-300">
+                    <tr>
+                      <td className="py-3 px-3 font-bold text-stone-900 dark:text-white">
+                        {receiptOrder.itemName}
+                      </td>
+                      <td className="py-3 px-3 text-center">{receiptOrder.quantity}</td>
+                      <td className="py-3 px-3 text-right">${receiptOrder.itemPrice.toFixed(2)}</td>
+                      <td className="py-3 px-3 text-right font-black text-red-600 dark:text-red-400">
+                        ${receiptOrder.totalPrice.toFixed(2)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Price Calculation Summary */}
+              <div className="space-y-1.5 text-xs text-stone-600 dark:text-stone-400 border-t border-stone-200 dark:border-stone-800 pt-3">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>${receiptOrder.totalPrice.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Delivery & Oven Handling</span>
+                  <span className="text-green-600 font-semibold">FREE</span>
+                </div>
+                <div className="flex justify-between font-black text-base text-stone-900 dark:text-white pt-2 border-t border-stone-200 dark:border-stone-700 font-[family-name:var(--font-heading)]">
+                  <span>TOTAL PAID</span>
+                  <span className="text-red-600 dark:text-red-500">
+                    ${receiptOrder.totalPrice.toFixed(2)} USD
+                  </span>
+                </div>
+              </div>
+
+              {/* Receipt Footer */}
+              <div className="text-center text-[10px] text-stone-400 pt-4 border-t border-stone-100 dark:border-stone-800">
+                <p>Thank you for choosing PizzaHub Artisan Wood-Fired Pizzerias.</p>
+                <p>Questions? Contact support@pizzahub.com</p>
+              </div>
+            </div>
+
+            {/* Modal Bottom Close */}
+            <div className="pt-2 print:hidden">
+              <button
+                onClick={() => setReceiptOrder(null)}
+                className="w-full py-3 rounded-2xl bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-stone-200 text-white dark:text-stone-900 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                Close Receipt
               </button>
             </div>
           </div>
