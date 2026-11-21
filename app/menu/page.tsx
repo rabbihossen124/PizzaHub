@@ -2,7 +2,18 @@
 
 import { useEffect, useState, useTransition, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Search, MapPin, Filter, RotateCcw, Pizza, Flame } from "lucide-react";
+import {
+  Search,
+  MapPin,
+  Filter,
+  RotateCcw,
+  Pizza,
+  Flame,
+  ArrowUpDown,
+  ArrowUpNarrowWide,
+  ArrowDownWideNarrow,
+  Sparkles,
+} from "lucide-react";
 import { MenuItem, MENU_CATEGORIES } from "@/lib/types";
 import { MenuCard } from "@/components/menu/menu-card";
 
@@ -121,6 +132,13 @@ const DEFAULT_LOCATIONS = [
   "Jersey City, NJ",
 ];
 
+const SORT_OPTIONS = [
+  { value: "newest", label: "Newest Arrivals", short: "Newest" },
+  { value: "price_asc", label: "Price: Low to High", short: "$ Low → High" },
+  { value: "price_desc", label: "Price: High to Low", short: "$ High → Low" },
+  { value: "name_asc", label: "Alphabetical (A - Z)", short: "A → Z" },
+];
+
 function BrowseMenuContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -129,10 +147,12 @@ function BrowseMenuContent() {
   const initialCategory = searchParams.get("category") || "All";
   const initialSearch = searchParams.get("search") || "";
   const initialLocation = searchParams.get("location") || "All";
+  const initialSort = searchParams.get("sort") || "newest";
 
   const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState(initialCategory);
   const [location, setLocation] = useState(initialLocation);
+  const [sort, setSort] = useState(initialSort);
 
   const [items, setItems] = useState<MenuItem[]>([]);
   const [locationsList, setLocationsList] = useState<string[]>(DEFAULT_LOCATIONS);
@@ -143,10 +163,12 @@ function BrowseMenuContent() {
     const cat = searchParams.get("category") || "All";
     const q = searchParams.get("search") || "";
     const loc = searchParams.get("location") || "All";
+    const s = searchParams.get("sort") || "newest";
 
     setCategory(cat);
     setSearch(q);
     setLocation(loc);
+    setSort(s);
   }, [searchParams]);
 
   // Fetch locations metadata once
@@ -168,7 +190,7 @@ function BrowseMenuContent() {
     fetchMeta();
   }, []);
 
-  // Fetch filtered items
+  // Fetch filtered & sorted items through backend API query parameters
   useEffect(() => {
     let isMounted = true;
     async function loadMenu() {
@@ -180,6 +202,7 @@ function BrowseMenuContent() {
         if (search.trim()) queryParts.push(`search=${encodeURIComponent(search.trim())}`);
         if (category !== "All") queryParts.push(`category=${encodeURIComponent(category)}`);
         if (location !== "All") queryParts.push(`location=${encodeURIComponent(location)}`);
+        if (sort) queryParts.push(`sort=${encodeURIComponent(sort)}`);
 
         const qs = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
         const res = await fetch(`${serverUrl}/api/menu${qs}`, {
@@ -196,7 +219,7 @@ function BrowseMenuContent() {
             }
           }
         } else {
-          // Filter fallback items client-side if server is unavailable
+          // Filter & sort fallback items client-side if server is unavailable
           filterFallback();
         }
       } catch (err) {
@@ -228,6 +251,16 @@ function BrowseMenuContent() {
             i.location.toLowerCase().includes(q)
         );
       }
+
+      // Apply client-side sorting fallback matching backend logic
+      if (sort === "price_asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sort === "price_desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sort === "name_asc") {
+        filtered.sort((a, b) => a.itemName.localeCompare(b.itemName));
+      }
+
       setItems(filtered);
     }
 
@@ -235,15 +268,16 @@ function BrowseMenuContent() {
     return () => {
       isMounted = false;
     };
-  }, [search, category, location]);
+  }, [search, category, location, sort]);
 
-  // Update query params in URL when user changes filters
-  const updateUrl = (newCat: string, newLoc: string, newSearch: string) => {
+  // Update query params in URL when user changes filters or sorting, preserving other parameters
+  const updateUrl = (newCat: string, newLoc: string, newSearch: string, newSort: string) => {
     startTransition(() => {
       const params = new URLSearchParams();
       if (newCat !== "All") params.set("category", newCat);
       if (newLoc !== "All") params.set("location", newLoc);
       if (newSearch.trim()) params.set("search", newSearch.trim());
+      if (newSort !== "newest") params.set("sort", newSort);
 
       const queryString = params.toString();
       router.push(`/menu${queryString ? `?${queryString}` : ""}`, { scroll: false });
@@ -252,30 +286,40 @@ function BrowseMenuContent() {
 
   const handleCategoryChange = (newCat: string) => {
     setCategory(newCat);
-    updateUrl(newCat, location, search);
+    updateUrl(newCat, location, search, sort);
   };
 
   const handleLocationChange = (newLoc: string) => {
     setLocation(newLoc);
-    updateUrl(category, newLoc, search);
+    updateUrl(category, newLoc, search, sort);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setSearch(val);
-    updateUrl(category, location, val);
+    updateUrl(category, location, val, sort);
+  };
+
+  const handleSortChange = (newSort: string) => {
+    setSort(newSort);
+    updateUrl(category, location, search, newSort);
   };
 
   const handleResetFilters = () => {
     setSearch("");
     setCategory("All");
     setLocation("All");
+    setSort("newest");
     startTransition(() => {
       router.push("/menu", { scroll: false });
     });
   };
 
-  const hasActiveFilters = search.trim() !== "" || category !== "All" || location !== "All";
+  const hasActiveFilters =
+    search.trim() !== "" || category !== "All" || location !== "All" || sort !== "newest";
+
+  const currentSortLabel =
+    SORT_OPTIONS.find((s) => s.value === sort)?.label || "Newest Arrivals";
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex flex-col">
@@ -291,17 +335,17 @@ function BrowseMenuContent() {
             Explore Our <span className="text-red-500">Handcrafted Menu</span>
           </h1>
           <p className="mt-3 text-stone-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Fresh fermented dough, San Marzano sauce, and volcanic stone baking. Filter by your favorite category or nearest location.
+            Fresh fermented dough, San Marzano sauce, and volcanic stone baking. Filter by your favorite category, nearest location, or sort by price.
           </p>
         </div>
       </section>
 
-      {/* 2. Search & Filter Bar */}
+      {/* 2. Search & Filter Bar with Challenge 1: Advanced Price Sorting */}
       <div className="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 sticky top-16 sm:top-20 z-20 shadow-sm backdrop-blur-md bg-white/95 dark:bg-stone-900/95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
-            {/* Search Input */}
-            <div className="md:col-span-5 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 items-center">
+            {/* Search Input (5 Cols on LG) */}
+            <div className="lg:col-span-4 relative">
               <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
@@ -314,7 +358,7 @@ function BrowseMenuContent() {
                 <button
                   onClick={() => {
                     setSearch("");
-                    updateUrl(category, location, "");
+                    updateUrl(category, location, "", sort);
                   }}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-xs font-bold"
                 >
@@ -323,8 +367,8 @@ function BrowseMenuContent() {
               )}
             </div>
 
-            {/* Category Dropdown (Mobile) / Selector */}
-            <div className="md:col-span-4 relative">
+            {/* Category Dropdown (3 Cols on LG) */}
+            <div className="lg:col-span-3 relative">
               <div className="relative">
                 <Filter className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <select
@@ -333,7 +377,7 @@ function BrowseMenuContent() {
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full pl-10 pr-8 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800/80 text-sm text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all cursor-pointer appearance-none"
                 >
-                  <option value="All">All Categories (All Pizzas & Sides)</option>
+                  <option value="All">All Categories</option>
                   {MENU_CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}
@@ -346,8 +390,8 @@ function BrowseMenuContent() {
               </div>
             </div>
 
-            {/* Location Selector */}
-            <div className="md:col-span-3 relative">
+            {/* Location Selector (2.5 Cols on LG) */}
+            <div className="lg:col-span-2.5 relative">
               <div className="relative">
                 <MapPin className="w-4 h-4 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <select
@@ -368,51 +412,112 @@ function BrowseMenuContent() {
                 </div>
               </div>
             </div>
+
+            {/* Challenge 1: Price Sorting Dropdown (2.5 Cols on LG) */}
+            <div className="lg:col-span-2.5 relative">
+              <div className="relative">
+                <ArrowUpDown className="w-4 h-4 text-amber-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <select
+                  aria-label="Sort Pizzas by Price or Newest"
+                  value={sort}
+                  onChange={(e) => handleSortChange(e.target.value)}
+                  className="w-full pl-10 pr-8 py-2.5 rounded-xl border border-amber-500/40 dark:border-amber-500/40 bg-amber-500/5 dark:bg-amber-950/20 text-sm font-semibold text-stone-900 dark:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all cursor-pointer appearance-none"
+                >
+                  {SORT_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value} className="text-stone-900 dark:text-white bg-white dark:bg-stone-900 font-normal">
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-amber-500 text-xs">
+                  ▼
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Category Pill Buttons (Desktop) */}
-          <div className="hidden lg:flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar">
-            <button
-              onClick={() => handleCategoryChange("All")}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                category === "All"
-                  ? "bg-red-600 text-white shadow-sm"
-                  : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700"
-              }`}
-            >
-              All Items
-            </button>
-            {MENU_CATEGORIES.map((cat) => (
+          {/* Quick Price Sort Buttons & Category Pills */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+            {/* Category Pills (Desktop) */}
+            <div className="hidden lg:flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
               <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                  category === cat
+                onClick={() => handleCategoryChange("All")}
+                className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                  category === "All"
                     ? "bg-red-600 text-white shadow-sm"
                     : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700"
                 }`}
               >
-                {cat}
+                All
               </button>
-            ))}
+              {MENU_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleCategoryChange(cat)}
+                  className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                    category === cat
+                      ? "bg-red-600 text-white shadow-sm"
+                      : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Quick Price Sort Toggle Buttons (Challenge Requirement 1) */}
+            <div className="flex items-center gap-1.5 shrink-0 bg-stone-100 dark:bg-stone-800/80 p-1 rounded-xl text-xs font-bold">
+              <span className="text-stone-400 px-2 uppercase text-[10px] tracking-wider">Sort:</span>
+              <button
+                onClick={() => handleSortChange("price_asc")}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  sort === "price_asc"
+                    ? "bg-amber-500 text-stone-950 font-black shadow-sm"
+                    : "text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white"
+                }`}
+              >
+                <ArrowUpNarrowWide className="w-3 h-3" />
+                <span>Price: Low → High</span>
+              </button>
+              <button
+                onClick={() => handleSortChange("price_desc")}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  sort === "price_desc"
+                    ? "bg-amber-500 text-stone-950 font-black shadow-sm"
+                    : "text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white"
+                }`}
+              >
+                <ArrowDownWideNarrow className="w-3 h-3" />
+                <span>Price: High → Low</span>
+              </button>
+            </div>
           </div>
 
-          {/* Active Filter Indicators & Count */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
-            <div className="text-stone-500 dark:text-stone-400">
-              Showing{" "}
-              <span className="font-bold text-stone-900 dark:text-white">
-                {items.length}
-              </span>{" "}
-              approved items
+          {/* Active Filter Indicators & Visible Sort Badge (Challenge Requirement 1) */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs border-t border-stone-100 dark:border-stone-800/60">
+            <div className="flex flex-wrap items-center gap-2 text-stone-500 dark:text-stone-400">
+              <span>
+                Showing{" "}
+                <strong className="text-stone-900 dark:text-white">
+                  {items.length}
+                </strong>{" "}
+                approved items
+              </span>
+
+              {/* Clearly Visible Active Sort Badge */}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-bold">
+                <Sparkles className="w-3 h-3 text-amber-500" />
+                Sorted by: {currentSortLabel}
+              </span>
+
               {category !== "All" && (
-                <span className="ml-1 text-red-600 dark:text-red-400 font-semibold">
-                  in {category}
+                <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/60 font-semibold">
+                  Category: {category}
                 </span>
               )}
               {location !== "All" && (
-                <span className="ml-1 text-amber-600 dark:text-amber-400 font-semibold">
-                  near {location}
+                <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-semibold">
+                  Location: {location}
                 </span>
               )}
             </div>
@@ -420,10 +525,10 @@ function BrowseMenuContent() {
             {hasActiveFilters && (
               <button
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-1.5 text-red-600 dark:text-red-400 hover:underline font-bold text-xs"
+                className="inline-flex items-center gap-1.5 text-red-600 dark:text-red-400 hover:underline font-bold text-xs cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                Reset Filters
+                Reset All Filters & Sort
               </button>
             )}
           </div>
@@ -462,7 +567,7 @@ function BrowseMenuContent() {
               No Pizzas Found
             </h3>
             <p className="mt-2 text-stone-600 dark:text-stone-300 text-sm leading-relaxed">
-              We couldn't find any approved menu items matching your search criteria. Try adjusting your search term, category, or location filter.
+              We couldn't find any approved menu items matching your search and sort criteria. Try adjusting your search term, category, or location filter.
             </p>
             <div className="mt-6">
               <button
