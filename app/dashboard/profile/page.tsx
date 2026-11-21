@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/lib/auth-helpers";
-import { User, Mail, Shield, Store, Sparkles, Calendar, CheckCircle2 } from "lucide-react";
+import { User, Mail, Shield, Store, CreditCard, Calendar, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 
 export default function ProfilePage() {
@@ -99,7 +99,7 @@ export default function ProfilePage() {
           {isVendor && (
             <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-700/60">
               <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-1 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <CreditCard className="w-3.5 h-3.5 text-amber-500" />
                 Subscription Plan
               </div>
               <div className="text-base font-bold text-stone-900 dark:text-white uppercase flex items-center gap-2">

@@ -12,7 +12,6 @@ import {
   Star,
   ShieldCheck,
   Clock,
-  Sparkles,
   AlertTriangle,
   ShieldAlert,
   Pizza,
@@ -290,7 +289,7 @@ export default function ItemDetailsPage({ params }: PageProps) {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Flame className="w-3.5 h-3.5 text-amber-500" />
                   Authentic Neapolitan Recipe
                 </span>
                 <span className="text-stone-300 dark:text-stone-700">•</span>

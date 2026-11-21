@@ -10,7 +10,6 @@ import {
   Clock,
   Star,
   ShieldCheck,
-  Sparkles,
   ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

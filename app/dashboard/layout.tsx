@@ -10,7 +10,7 @@ import {
   Pizza,
   PlusCircle,
   ShoppingBag,
-  Sparkles,
+  CreditCard,
   Users,
   CheckSquare,
   Receipt,
@@ -103,7 +103,7 @@ export default function DashboardLayout({
       {
         name: "Subscription",
         href: "/dashboard/vendor/subscription",
-        icon: Sparkles,
+        icon: CreditCard,
         badge: user?.subscriptionPlan === "premium" ? "PRO" : "FREE",
       },
       { name: "Profile Settings", href: "/dashboard/profile", icon: User },
@@ -192,9 +192,7 @@ export default function DashboardLayout({
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
           </button>
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center text-white">
-              <Flame className="w-5 h-5 text-amber-300" />
-            </div>
+            <Image src="/pizza-logo.png" alt="PizzaHub" width={32} height={32} className="w-8 h-8 object-contain" />
             <span className="font-black text-lg uppercase tracking-tight font-[family-name:var(--font-heading)]">
               Pizza<span className="text-red-500">Hub</span>
             </span>
@@ -217,9 +215,7 @@ export default function DashboardLayout({
               {/* Drawer Header */}
               <div className="flex items-center justify-between pb-6 border-b border-stone-800">
                 <Link href="/" className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center text-white">
-                    <Flame className="w-5 h-5 text-amber-300" />
-                  </div>
+                  <Image src="/pizza-logo.png" alt="PizzaHub" width={32} height={32} className="w-8 h-8 object-contain" />
                   <span className="font-black text-lg uppercase tracking-tight font-[family-name:var(--font-heading)]">
                     Pizza<span className="text-red-500">Hub</span>
                   </span>
@@ -295,9 +291,7 @@ export default function DashboardLayout({
         <div>
           {/* Brand Header */}
           <Link href="/" className="flex items-center gap-2.5 group mb-8">
-            <div className="w-10 h-10 rounded-2xl bg-red-600 flex items-center justify-center text-white shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform">
-              <Flame className="w-6 h-6 text-amber-300" />
-            </div>
+            <Image src="/pizza-logo.png" alt="PizzaHub" width={44} height={44} className="w-11 h-11 object-contain transition-transform group-hover:scale-110" />
             <div>
               <span className="font-black text-xl uppercase tracking-tight font-[family-name:var(--font-heading)] block leading-tight">
                 Pizza<span className="text-red-500">Hub</span>

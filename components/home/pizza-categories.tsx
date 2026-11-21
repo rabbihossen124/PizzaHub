@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Pizza, ArrowRight, Utensils, Sparkles } from "lucide-react";
+import { Pizza, ArrowRight, Utensils } from "lucide-react";
 
 interface CategoryCard {
   name: string;
@@ -69,7 +69,7 @@ export function PizzaCategories() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-800/80 text-red-400 text-xs font-bold tracking-widest uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <Pizza className="w-3.5 h-3.5 text-amber-400" />
             Flavors For Every Palate
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white font-[family-name:var(--font-heading)]">

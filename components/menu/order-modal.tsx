@@ -13,7 +13,7 @@ import {
   MapPin,
   MessageSquare,
   Clock,
-  Sparkles,
+  Flame,
   Loader2,
   CheckCircle2,
   AlertCircle,
@@ -117,7 +117,7 @@ export function OrderModal({ item, isOpen, onClose }: OrderModalProps) {
         <div className="relative p-6 bg-stone-900 text-white border-b border-stone-800 flex items-center justify-between">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 flex items-center gap-1">
-              <Sparkles className="w-3 h-3" />
+              <Flame className="w-3.5 h-3.5 text-amber-400" />
               Direct Kitchen Order
             </span>
             <h2 className="text-xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] mt-0.5">

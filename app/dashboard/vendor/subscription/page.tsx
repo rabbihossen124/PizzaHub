@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  Sparkles,
   CheckCircle2,
   X,
   CreditCard,
@@ -12,6 +11,7 @@ import {
   Loader2,
   Star,
   Zap,
+  Award,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-helpers";
 import { toast } from "sonner";
@@ -55,7 +55,7 @@ export default function VendorSubscriptionPage() {
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold tracking-widest uppercase mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+          <Award className="w-3.5 h-3.5 text-amber-500" />
           Vendor Subscription Tiers
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-stone-900 dark:text-white font-[family-name:var(--font-heading)]">

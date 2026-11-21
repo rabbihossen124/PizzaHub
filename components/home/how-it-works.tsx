@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { Search, Flame, Bike, ArrowRight, Pizza, Sparkles } from "lucide-react";
+import { Search, Flame, Bike, ArrowRight, Pizza } from "lucide-react";
 
 interface Step {
   step: string;
@@ -46,7 +46,7 @@ export function HowItWorks() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-800/80 text-red-400 text-xs font-bold tracking-widest uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <Flame className="w-3.5 h-3.5 text-amber-400" />
             Seamless 3-Step Experience
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white font-[family-name:var(--font-heading)]">

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth-helpers";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -86,13 +87,20 @@ export function Navbar() {
       {/* 2. Main Navigation Bar */}
       <div className="w-full border-b border-border/80 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-          {/* PizzaHub Logo (Caferio Aesthetic) */}
+          {/* PizzaHub Logo (Caferio Aesthetic with Cheesy Pizza Slice) */}
           <Link
             href="/"
             className="flex items-center gap-3 group select-none transition-transform hover:scale-[1.02]"
           >
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-primary via-rose-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-primary/30 group-hover:shadow-primary/50 transition-all">
-              <Pizza className="w-6 h-6 transition-transform group-hover:rotate-12 duration-300" />
+            <div className="relative w-12 h-12 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300">
+              <Image
+                src="/pizza-logo.png"
+                alt="PizzaHub Logo"
+                width={52}
+                height={52}
+                className="w-12 h-12 object-contain drop-shadow-md"
+                priority
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-heading font-extrabold text-2xl lg:text-3xl tracking-wide uppercase text-foreground leading-none flex items-center">

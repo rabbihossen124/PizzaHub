@@ -12,7 +12,6 @@ import {
   ArrowUpDown,
   ArrowUpNarrowWide,
   ArrowDownWideNarrow,
-  Sparkles,
 } from "lucide-react";
 import { MenuItem, MENU_CATEGORIES } from "@/lib/types";
 import { MenuCard } from "@/components/menu/menu-card";
@@ -506,7 +505,7 @@ function BrowseMenuContent() {
 
               {/* Clearly Visible Active Sort Badge */}
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-bold">
-                <Sparkles className="w-3 h-3 text-amber-500" />
+                <ArrowUpDown className="w-3 h-3 text-amber-500" />
                 Sorted by: {currentSortLabel}
               </span>
 

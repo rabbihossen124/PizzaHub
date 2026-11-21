@@ -1,5 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Pizza,
   MapPin,
@@ -8,7 +9,6 @@ import {
   Clock,
   Heart,
   Send,
-  Sparkles,
   Flame,
 } from "lucide-react";
 
@@ -95,10 +95,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* Brand & Description */}
           <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="flex items-center gap-3 select-none">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-primary via-rose-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-primary/30">
-                <Pizza className="w-6 h-6" />
-              </div>
+            <Link href="/" className="flex items-center gap-3 select-none group">
+              <Image
+                src="/pizza-logo.png"
+                alt="PizzaHub Logo"
+                width={48}
+                height={48}
+                className="w-11 h-11 object-contain transition-transform group-hover:scale-110"
+              />
               <div className="flex flex-col">
                 <span className="font-heading font-extrabold text-2xl tracking-wide uppercase text-white">
                   PIZZA<span className="text-primary font-black ml-0.5">HUB</span>

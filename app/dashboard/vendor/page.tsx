@@ -8,7 +8,8 @@ import {
   CheckCircle2,
   Clock,
   ShoppingBag,
-  Sparkles,
+  CreditCard,
+  Award,
   ArrowRight,
   PlusCircle,
   TrendingUp,
@@ -151,7 +152,7 @@ export default function VendorDashboardPage() {
               href="/dashboard/vendor/subscription"
               className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-black uppercase tracking-wider py-3 px-5 rounded-xl transition-all shadow-md hover:scale-105 font-[family-name:var(--font-heading)]"
             >
-              <Sparkles className="w-4 h-4" />
+              <CreditCard className="w-4 h-4" />
               <span>Upgrade Plan</span>
             </Link>
           )}
@@ -254,7 +255,7 @@ export default function VendorDashboardPage() {
                   : "bg-stone-100 dark:bg-stone-800 text-stone-500"
               }`}
             >
-              <Sparkles className="w-4 h-4" />
+              <Award className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-4">
@@ -296,7 +297,7 @@ export default function VendorDashboardPage() {
                   : "bg-red-50 dark:bg-red-950/60 text-red-600"
               }`}
             >
-              <Sparkles className="w-6 h-6" />
+              <Award className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">

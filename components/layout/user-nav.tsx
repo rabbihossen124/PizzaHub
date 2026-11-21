@@ -11,7 +11,7 @@ import {
   Settings,
   LogOut,
   ChevronDown,
-  Sparkles,
+  Award,
   ShieldAlert,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -114,7 +114,7 @@ export function UserNav() {
               <p className="font-semibold text-sm line-clamp-1">{user.name}</p>
               {isPremium && (
                 <Badge variant="premium" className="text-[10px] px-1.5 py-0 h-4">
-                  <Sparkles className="w-2.5 h-2.5 mr-0.5" /> Premium
+                  <Award className="w-2.5 h-2.5 mr-0.5" /> Premium
                 </Badge>
               )}
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Flame, ShieldCheck, Clock, Award, Leaf, Sparkles, CheckCircle2 } from "lucide-react";
+import { Flame, ShieldCheck, Clock, Award, Leaf, CheckCircle2 } from "lucide-react";
 
 interface BenefitItem {
   icon: typeof Flame;
