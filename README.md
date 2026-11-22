@@ -39,22 +39,22 @@ PizzaHub solves the problem of generic fast-food platforms by creating an artisa
 
 | Component | URL / Repository |
 | :--- | :--- |
-| **Live Web Application** | [https://pizzahub-client.vercel.app](https://pizzahub-client.vercel.app) *(or your deployed Vercel link)* |
-| **Client Source Code** | `c:\project\Assiment\Assiment-9\pizzaHub` |
-| **Live Server API** | [https://pizzahub-server.onrender.com](https://pizzahub-server.onrender.com) *(or your deployed Render/Vercel link)* |
-| **Server Source Code** | `c:\project\Assiment\Assiment-9\PizzaHub-Server` |
+| **Live Web Application (Client)** | [https://pizzahub-orcin.vercel.app](https://pizzahub-orcin.vercel.app) |
+| **Client GitHub Repository** | [https://github.com/rabbihossen124/PizzaHub](https://github.com/rabbihossen124/PizzaHub) |
+| **Live Server API (Backend)** | [https://pizzahub-server-pearl.vercel.app](https://pizzahub-server-pearl.vercel.app) |
+| **Server GitHub Repository** | [https://github.com/rabbihossen124/pizzahub-server](https://github.com/rabbihossen124/pizzahub-server) |
 
 ---
 
-## 🔑 Demo Credentials
+## 🔑 Test Credentials (Active & Tested)
 
-To experience all role-based dashboards immediately without manual registration, use the quick-fill demo buttons on the [Sign In Page](/signin) or sign in with:
+To experience all role-based dashboards immediately without manual registration, sign in on the [Sign In Page](https://pizzahub-orcin.vercel.app/signin) with:
 
 | Role | Email | Password | Access Privileges |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@pizzahub.com` | `Password123!` | Full governance, user blocking/unblocking, menu approval/rejection, and immutable Stripe transaction auditing |
-| **Pizzeria Vendor** | `woodfire@pizzahub.com` | `Password123!` | Menu item CRUD, ImgBB file uploads, 3-item limit validation, Stripe $29 Premium upgrade, and kitchen order Accept/Reject |
-| **Customer** | `customer@pizzahub.com` | `Password123!` | Pizza ordering with date picker, duplicate order validation, kitchen timeline tracker, order cancellation, and printable receipts |
+| **Administrator** | `admin@gmail.com` | `123456` | Full governance, user blocking/unblocking, menu approval/rejection, and immutable Stripe transaction auditing |
+| **Pizzeria Vendor** | `vendor1@gmail.com` | `123456` | Menu item CRUD, ImgBB file uploads, 3-item limit validation, Stripe $29 Premium upgrade, and kitchen order Accept/Reject |
+| **Customer** | `joy@gmail.com` | `joy123` | Pizza ordering with date picker, duplicate order validation, kitchen timeline tracker, order cancellation, and printable receipts |
 
 ---
 
@@ -176,8 +176,11 @@ pizzaHub (Monorepo Workspace)
 
 ### 1. Clone Repositories
 ```bash
-git clone https://github.com/rabbihossen124/pizzaHub.git
-cd pizzaHub
+# Clone Frontend Client
+git clone https://github.com/rabbihossen124/PizzaHub.git
+
+# Clone Backend Server
+git clone https://github.com/rabbihossen124/pizzahub-server.git
 ```
 
 ### 2. Configure Backend Server
