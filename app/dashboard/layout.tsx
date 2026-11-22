@@ -70,7 +70,8 @@ export default function DashboardLayout({
       }
     } else if (userRole === "admin") {
       if (pathname.startsWith("/dashboard/customer") || pathname.startsWith("/dashboard/vendor")) {
-        // Admin can stay or go to admin
+        toast.error("Redirecting to Admin Portal.");
+        router.replace("/dashboard/admin");
       }
     }
   }, [isLoading, isAuthenticated, user, pathname, router]);
@@ -171,6 +172,35 @@ export default function DashboardLayout({
               <LogOut className="w-4 h-4" />
               <span>Sign Out</span>
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. Role-based URL Shield: Zero-flash content block if an unauthorized URL is visited
+  const currentRole = user?.role || "customer";
+  const isUnauthorizedRoleAccess =
+    (currentRole === "customer" && (pathname.startsWith("/dashboard/vendor") || pathname.startsWith("/dashboard/admin"))) ||
+    (currentRole === "vendor" && (pathname.startsWith("/dashboard/admin") || pathname.startsWith("/dashboard/customer"))) ||
+    (currentRole === "admin" && (pathname.startsWith("/dashboard/customer") || pathname.startsWith("/dashboard/vendor")));
+
+  if (isUnauthorizedRoleAccess) {
+    return (
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white dark:bg-stone-900 rounded-3xl border border-red-200 dark:border-red-900/60 p-8 text-center shadow-2xl">
+          <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center mx-auto mb-4">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-stone-900 dark:text-white font-[family-name:var(--font-heading)]">
+            Access Restricted
+          </h2>
+          <p className="mt-2 text-stone-600 dark:text-stone-300 text-sm leading-relaxed">
+            You are not authorized to view this portal with your{" "}
+            <span className="font-bold text-red-600 uppercase">{currentRole}</span> account. Redirecting you to your assigned workspace...
+          </p>
+          <div className="mt-6 flex justify-center">
+            <div className="w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
           </div>
         </div>
       </div>
