@@ -16,7 +16,7 @@ export const auth = betterAuth({
     client,
   }),
   secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL || "https://pizzahub-orcin.vercel.app",
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
