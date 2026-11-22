@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Pizza,
   Flame,
@@ -14,7 +15,58 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const HERO_SLIDES = [
+  {
+    id: "cheese-pull",
+    title: "Hot Cheese Pull Special",
+    subtitle: "Artisan Mozzarella Stretch",
+    image: "/images/hero-pizza-pull.jpg",
+    alt: "Artisan Wood-Fired Pizza Cheese Pull",
+    tag: "Fresh Oven Pull",
+    badge1: {
+      highlight: "HOT",
+      title: "Cheesy Stretch",
+      sub: "Fresh Mozzarella Pull",
+    },
+    badge2: {
+      title: "Wood-Fired Crust",
+      sub: "🔥 450°C Stone Oven",
+    },
+  },
+  {
+    id: "classic-woodfired",
+    title: "Wood-Fired Neapolitan",
+    subtitle: "Stone-Baked Signature",
+    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80",
+    alt: "Delicious Artisan Pizza",
+    tag: "Artisan Signature",
+    badge1: {
+      highlight: "20%",
+      title: "Special Offer",
+      sub: "Code: PIZZA20",
+    },
+    badge2: {
+      title: "Express Delivery",
+      sub: "⚡ Under 28 Mins",
+    },
+  },
+];
+
 export function HeroBanner() {
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [isPaused, setIsPaused] = React.useState(false);
+
+  // Auto-rotate dynamic hero slides every 5 seconds (pausing on hover)
+  React.useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  const activeSlide = HERO_SLIDES[currentSlide];
+
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24 bg-gradient-to-b from-background via-amber-500/[0.03] to-background">
       {/* Decorative ambient background glows */}
@@ -59,7 +111,7 @@ export function HeroBanner() {
               <Link href="/menu">
                 <Button
                   size="lg"
-                  className="h-12 px-7 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary/95 hover:to-rose-500 text-white font-bold text-base shadow-xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] gap-2.5"
+                  className="h-12 px-7 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary/95 hover:to-rose-500 text-white font-bold text-base shadow-xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] gap-2.5 cursor-pointer"
                 >
                   <ShoppingBag className="w-5 h-5" />
                   <span>Explore Pizza Menu</span>
@@ -71,7 +123,7 @@ export function HeroBanner() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="h-12 px-6 rounded-xl border-border/80 hover:bg-accent/80 font-bold text-base transition-all hover:scale-[1.02]"
+                  className="h-12 px-6 rounded-xl border-border/80 hover:bg-accent/80 font-bold text-base transition-all hover:scale-[1.02] cursor-pointer"
                 >
                   <span>Why Choose Us?</span>
                 </Button>
@@ -118,8 +170,12 @@ export function HeroBanner() {
             </div>
           </motion.div>
 
-          {/* Right Column: Hero Visual with Caferio-style Floating Badges */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          {/* Right Column: Dynamic Hero Visual with Floating Badges */}
+          <div 
+            className="lg:col-span-5 relative flex flex-col items-center justify-center"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             {/* Background circular rotating flame glow */}
             <motion.div
               animate={{ rotate: 360 }}
@@ -128,86 +184,104 @@ export function HeroBanner() {
             />
             <div className="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-primary/20 via-amber-500/20 to-transparent blur-2xl -z-0" />
 
-            {/* Main Hero Pizza Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative z-10 w-full max-w-[420px] aspect-square"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80"
-                alt="Delicious Artisan Pizza"
-                className="w-full h-full object-cover rounded-full shadow-2xl shadow-primary/25 border-4 border-card p-1 transition-transform hover:scale-105 duration-500"
-              />
-            </motion.div>
+            {/* Dynamic Animated Pizza Showcase Container */}
+            <div className="relative z-10 w-full max-w-[420px] aspect-square flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSlide.id}
+                  initial={{ opacity: 0, scale: 0.92, rotate: -2 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 1.05, rotate: 2 }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  className="relative w-full h-full rounded-full overflow-hidden shadow-2xl shadow-red-600/25 border-4 border-stone-900/50 p-1 bg-stone-950"
+                >
+                  <Image
+                    src={activeSlide.image}
+                    alt={activeSlide.alt}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 420px"
+                    className="w-full h-full object-cover rounded-full transition-transform duration-700 hover:scale-105"
+                  />
 
-            {/* Floating Badge 1: Hot Deal / Discount (Top Right) */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              className="absolute -top-4 right-0 sm:-right-4 z-20 px-3.5 py-2.5 rounded-2xl bg-card/95 backdrop-blur-md border border-border/80 shadow-xl flex items-center gap-3"
-            >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-rose-500 text-white flex items-center justify-center font-black text-sm shadow-md">
-                20%
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold leading-tight text-foreground">
-                  Special Offer
-                </p>
-                <p className="text-[10px] text-muted-foreground font-semibold">
-                  Use Code: <span className="text-primary font-bold">PIZZA20</span>
-                </p>
-              </div>
-            </motion.div>
+                  {/* Subtle dynamic overlay with tag */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none rounded-full" />
 
-            {/* Floating Badge 2: Delivery Speed (Bottom Left) */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              whileHover={{ scale: 1.05 }}
-              className="absolute -bottom-4 left-0 sm:-left-4 z-20 px-4 py-2.5 rounded-2xl bg-card/95 backdrop-blur-md border border-border/80 shadow-xl flex items-center gap-3"
-            >
-              <div className="w-9 h-9 rounded-xl bg-primary text-white flex items-center justify-center shadow-md">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold leading-tight text-foreground">
-                  Express Delivery
-                </p>
-                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
-                  ⚡ Under 28 Mins
-                </p>
-              </div>
-            </motion.div>
+                  {/* In-image Live Tag */}
+                  <div className="absolute bottom-6 left-6 right-6 flex items-center justify-center pointer-events-none">
+                    <span className="px-3.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white font-extrabold text-[11px] uppercase tracking-wider shadow">
+                      {activeSlide.title}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
 
-            {/* Floating Badge 3: Customer Rating (Bottom Right) */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              whileHover={{ scale: 1.05 }}
-              className="hidden sm:flex absolute bottom-8 -right-6 z-20 px-3 py-2 rounded-xl bg-card/90 backdrop-blur-md border border-border/70 shadow-lg items-center gap-2"
-            >
-              <div className="flex -space-x-1.5">
-                <div className="w-6 h-6 rounded-full bg-rose-500 text-[10px] font-bold text-white flex items-center justify-center border-2 border-card">
-                  A
+              {/* Floating Badge 1: Dynamic Top Right (Dark Glassy Luxury Card as user prefers) */}
+              <motion.div
+                key={`badge1-${activeSlide.id}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                whileHover={{ scale: 1.05 }}
+                className="absolute -top-4 right-0 sm:-right-4 z-20 px-3.5 py-2.5 rounded-2xl bg-stone-950/85 backdrop-blur-md border border-white/15 shadow-2xl flex items-center gap-3 text-white"
+              >
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-rose-600 text-white flex items-center justify-center font-black text-xs shadow-md">
+                  {activeSlide.badge1.highlight}
                 </div>
-                <div className="w-6 h-6 rounded-full bg-amber-500 text-[10px] font-bold text-white flex items-center justify-center border-2 border-card">
-                  M
+                <div className="text-left">
+                  <p className="text-xs font-bold leading-tight text-white">
+                    {activeSlide.badge1.title}
+                  </p>
+                  <p className="text-[10px] text-amber-400 font-semibold">
+                    {activeSlide.badge1.sub}
+                  </p>
                 </div>
-                <div className="w-6 h-6 rounded-full bg-emerald-500 text-[10px] font-bold text-white flex items-center justify-center border-2 border-card">
-                  R
+              </motion.div>
+
+              {/* Floating Badge 2: Dynamic Bottom Left (Dark Glassy Luxury Card as user prefers) */}
+              <motion.div
+                key={`badge2-${activeSlide.id}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                whileHover={{ scale: 1.05 }}
+                className="absolute -bottom-4 left-0 sm:-left-4 z-20 px-4 py-2.5 rounded-2xl bg-stone-950/85 backdrop-blur-md border border-white/15 shadow-2xl flex items-center gap-3 text-white"
+              >
+                <div className="w-9 h-9 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md">
+                  <Clock className="w-5 h-5 text-white" />
                 </div>
-              </div>
-              <div className="text-[11px] font-bold text-foreground flex items-center gap-1">
-                <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
-                <span>4.9 (1.2k+ reviews)</span>
-              </div>
-            </motion.div>
+                <div className="text-left">
+                  <p className="text-xs font-bold leading-tight text-white">
+                    {activeSlide.badge2.title}
+                  </p>
+                  <p className="text-[10px] text-emerald-400 font-bold">
+                    {activeSlide.badge2.sub}
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Interactive Dynamic Switcher Controls (Exact Pill Style from User Screenshot) */}
+            <div className="mt-8 flex items-center gap-3 z-20">
+              {HERO_SLIDES.map((slide, idx) => (
+                <button
+                  key={slide.id}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+                    currentSlide === idx
+                      ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xl shadow-red-600/40 border border-red-500/60 scale-105"
+                      : "bg-stone-900/85 border border-stone-800 text-stone-400 hover:text-white hover:bg-stone-800 shadow-md"
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      currentSlide === idx ? "bg-amber-300 animate-pulse shadow-sm" : "bg-stone-500"
+                    }`}
+                  />
+                  <span>{slide.title}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

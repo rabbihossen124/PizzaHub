@@ -78,7 +78,7 @@ export default function VendorDashboardPage() {
     async function fetchVendorOverview() {
       setIsLoading(true);
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const headers: HeadersInit = {
@@ -123,16 +123,16 @@ export default function VendorDashboardPage() {
   return (
     <div className="space-y-8">
       {/* 1. Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-stone-900 via-stone-900 to-red-950 p-6 sm:p-8 text-white border border-stone-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-gradient-to-r from-red-500/10 via-amber-500/10 to-transparent dark:from-stone-900 dark:via-stone-900 dark:to-red-950/70 p-6 sm:p-8 text-foreground border border-red-500/20 dark:border-stone-800 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-800/80 text-red-400 text-xs font-bold tracking-widest uppercase mb-2">
-            <Store className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/80 border border-red-200 dark:border-red-800/80 text-red-600 dark:text-red-400 text-xs font-bold tracking-widest uppercase mb-2">
+            <Store className="w-3.5 h-3.5 text-amber-500" />
             Kitchen Management Portal
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)]">
+          <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-stone-900 dark:text-white font-[family-name:var(--font-heading)]">
             Welcome, {user?.businessName || user?.name || "Artisan Chef"}
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-stone-300 max-w-xl">
+          <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-xl">
             Monitor real-time kitchen orders, track your active menu catalogue, and manage customer fulfillment.
           </p>
         </div>
@@ -141,7 +141,7 @@ export default function VendorDashboardPage() {
         <div className="relative z-10 flex flex-wrap items-center gap-3">
           <Link
             href="/dashboard/vendor/add-item"
-            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider py-3 px-5 rounded-xl transition-all shadow-lg hover:shadow-red-600/30 hover:scale-105 font-[family-name:var(--font-heading)]"
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider py-3 px-5 rounded-xl transition-all shadow-md hover:scale-105 font-[family-name:var(--font-heading)] cursor-pointer"
           >
             <PlusCircle className="w-4 h-4" />
             <span>Add Menu Item</span>
@@ -150,7 +150,7 @@ export default function VendorDashboardPage() {
           {!isPremium && (
             <Link
               href="/dashboard/vendor/subscription"
-              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-black uppercase tracking-wider py-3 px-5 rounded-xl transition-all shadow-md hover:scale-105 font-[family-name:var(--font-heading)]"
+              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-black uppercase tracking-wider py-3 px-5 rounded-xl transition-all shadow-md hover:scale-105 font-[family-name:var(--font-heading)] cursor-pointer"
             >
               <CreditCard className="w-4 h-4" />
               <span>Upgrade Plan</span>
@@ -282,10 +282,10 @@ export default function VendorDashboardPage() {
 
       {/* 3. Subscription & Menu Limit Banner (Free vs Premium) */}
       <div
-        className={`p-6 rounded-3xl border transition-all ${
+        className={`p-6 sm:p-7 rounded-3xl border transition-all ${
           isPremium
-            ? "bg-gradient-to-r from-amber-950/30 via-stone-900 to-stone-900 border-amber-500/40"
-            : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 shadow-sm"
+            ? "bg-gradient-to-r from-amber-50 via-amber-100/50 to-transparent dark:from-amber-950/40 dark:via-stone-900/80 dark:to-stone-900 border-amber-500/40 shadow-sm"
+            : "bg-white dark:bg-[#161412] border-stone-200 dark:border-stone-800 shadow-sm"
         }`}
       >
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -293,7 +293,7 @@ export default function VendorDashboardPage() {
             <div
               className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
                 isPremium
-                  ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20"
+                  ? "bg-amber-500 text-stone-950 shadow-md shadow-amber-500/20"
                   : "bg-red-50 dark:bg-red-950/60 text-red-600"
               }`}
             >
@@ -314,7 +314,7 @@ export default function VendorDashboardPage() {
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed max-w-2xl">
+              <p className="mt-1 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed max-w-2xl">
                 {isPremium
                   ? "You enjoy unlimited active menu items, verified gold vendor badge, top-tier homepage placement, and instant checkout priority."
                   : "Free tier accounts can publish a maximum of 3 active pizzas simultaneously. Upgrade to Premium for unlimited menu items and high-visibility placements."}
@@ -325,8 +325,8 @@ export default function VendorDashboardPage() {
           <div className="shrink-0">
             {isPremium ? (
               <div className="text-right">
-                <span className="text-xs text-stone-400 block">Subscription Status</span>
-                <span className="text-sm font-bold text-green-500 flex items-center gap-1 justify-end">
+                <span className="text-xs text-stone-500 dark:text-stone-400 block">Subscription Status</span>
+                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 justify-end">
                   <CheckCircle2 className="w-4 h-4" />
                   Active Lifetime Pro
                 </span>

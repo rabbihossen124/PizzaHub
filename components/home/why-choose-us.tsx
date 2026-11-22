@@ -111,31 +111,31 @@ export function WhyChooseUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mt-16 rounded-2xl bg-stone-900 dark:bg-stone-950 border border-stone-800 p-8 text-white grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center"
+          className="mt-16 rounded-3xl bg-card border border-border/80 p-8 text-card-foreground shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center"
         >
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-amber-400 font-[family-name:var(--font-heading)]">
+            <div className="text-3xl sm:text-4xl font-black text-amber-500 font-[family-name:var(--font-heading)]">
               50,000+
             </div>
-            <p className="text-xs uppercase tracking-wider text-stone-400 mt-1">Pizzas Hand-Delivered</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Pizzas Hand-Delivered</p>
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-red-500 font-[family-name:var(--font-heading)]">
+            <div className="text-3xl sm:text-4xl font-black text-primary font-[family-name:var(--font-heading)]">
               28 Mins
             </div>
-            <p className="text-xs uppercase tracking-wider text-stone-400 mt-1">Average Delivery Time</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Average Delivery Time</p>
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-amber-400 font-[family-name:var(--font-heading)]">
+            <div className="text-3xl sm:text-4xl font-black text-amber-500 font-[family-name:var(--font-heading)]">
               4.9 / 5.0
             </div>
-            <p className="text-xs uppercase tracking-wider text-stone-400 mt-1">Customer Satisfaction</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Customer Satisfaction</p>
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-red-500 font-[family-name:var(--font-heading)]">
+            <div className="text-3xl sm:text-4xl font-black text-primary font-[family-name:var(--font-heading)]">
               100%
             </div>
-            <p className="text-xs uppercase tracking-wider text-stone-400 mt-1">Fresh Wood-Fired Daily</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Fresh Wood-Fired Daily</p>
           </div>
         </motion.div>
       </div>

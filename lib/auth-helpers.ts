@@ -15,14 +15,19 @@ export interface PizzaHubUser {
   subscriptionExpiresAt?: string | Date | null;
 }
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
 
 /**
  * Custom hook to get active user details, roles, and JWT token for server requests
  */
 export function useAuth() {
   const { data: session, isPending } = useSession();
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("pizzahub_jwt");
+    }
+    return null;
+  });
 
   const rawUser = session?.user as Record<string, unknown> | undefined;
 

@@ -105,7 +105,7 @@ export default function ItemDetailsPage({ params }: PageProps) {
       setError(null);
 
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const res = await fetch(`${serverUrl}/api/menu/${itemId}`);
 
         if (res.ok) {

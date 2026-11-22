@@ -178,16 +178,16 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-stone-50 dark:bg-[#0d0c0a] text-stone-900 dark:text-stone-100 flex flex-col lg:flex-row transition-colors">
       {/* ============================================================== */}
       {/* 1. Mobile Top Header & Hamburger Bar */}
       {/* ============================================================== */}
-      <header className="lg:hidden bg-stone-900 text-white px-4 py-3.5 border-b border-stone-800 flex items-center justify-between sticky top-0 z-40">
+      <header className="lg:hidden bg-white dark:bg-[#141210] text-stone-900 dark:text-white px-4 py-3.5 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between sticky top-0 z-40 shadow-sm">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Dashboard Menu"
-            className="p-2 rounded-xl bg-stone-800 text-stone-300 hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors cursor-pointer"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
           </button>
@@ -200,7 +200,7 @@ export default function DashboardLayout({
         </div>
 
         {/* User Role Pill */}
-        <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-red-950/80 border border-red-800/80 text-red-400">
+        <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-red-100 dark:bg-red-950/80 border border-red-200 dark:border-red-800/80 text-red-600 dark:text-red-400">
           {user.role}
         </span>
       </header>
@@ -209,11 +209,11 @@ export default function DashboardLayout({
       {/* 2. Mobile Drawer Navigation */}
       {/* ============================================================== */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex">
-          <div className="w-72 max-w-[80vw] bg-stone-900 text-white h-full flex flex-col justify-between p-6 shadow-2xl animate-in slide-in-from-left duration-200">
+        <div className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex">
+          <div className="w-72 max-w-[80vw] bg-white dark:bg-[#141210] text-stone-900 dark:text-white h-full flex flex-col justify-between p-6 shadow-2xl animate-in slide-in-from-left duration-200 border-r border-stone-200 dark:border-stone-800">
             <div>
               {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-6 border-b border-stone-800">
+              <div className="flex items-center justify-between pb-6 border-b border-stone-200 dark:border-stone-800">
                 <Link href="/" className="flex items-center gap-2">
                   <Image src="/pizza-logo.png" alt="PizzaHub" width={32} height={32} className="w-8 h-8 object-contain" />
                   <span className="font-black text-lg uppercase tracking-tight font-[family-name:var(--font-heading)]">
@@ -222,7 +222,7 @@ export default function DashboardLayout({
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-1.5 rounded-lg bg-stone-800 text-stone-400 hover:text-white"
+                  className="p-1.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -241,7 +241,7 @@ export default function DashboardLayout({
                       className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
                         isActive
                           ? "bg-red-600 text-white shadow-md shadow-red-600/30"
-                          : "text-stone-300 hover:bg-stone-800 hover:text-white"
+                          : "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-white"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -260,19 +260,19 @@ export default function DashboardLayout({
             </div>
 
             {/* Mobile Footer User Info & Sign Out */}
-            <div className="pt-6 border-t border-stone-800">
+            <div className="pt-6 border-t border-stone-200 dark:border-stone-800">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center font-bold text-amber-400 uppercase">
+                <div className="w-10 h-10 rounded-full bg-stone-200 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 flex items-center justify-center font-bold text-amber-600 dark:text-amber-400 uppercase">
                   {user.name ? user.name[0] : "U"}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xs font-bold text-white truncate">{user.name}</div>
-                  <div className="text-[11px] text-stone-400 truncate">{user.email}</div>
+                  <div className="text-xs font-bold text-stone-900 dark:text-white truncate">{user.name}</div>
+                  <div className="text-[11px] text-stone-500 dark:text-stone-400 truncate">{user.email}</div>
                 </div>
               </div>
               <button
                 onClick={handleSignOut}
-                className="w-full py-2.5 px-3 rounded-xl bg-stone-800 hover:bg-red-600 text-stone-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full py-2.5 px-3 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-red-600 text-stone-700 dark:text-stone-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Sign Out</span>
@@ -287,25 +287,25 @@ export default function DashboardLayout({
       {/* ============================================================== */}
       {/* 3. Desktop Sticky Sidebar Navigation */}
       {/* ============================================================== */}
-      <aside className="hidden lg:flex flex-col w-64 bg-stone-900 text-white border-r border-stone-800 sticky top-0 h-screen shrink-0 justify-between p-6">
+      <aside className="hidden lg:flex flex-col w-64 bg-white dark:bg-[#141210] text-stone-900 dark:text-white border-r border-stone-200 dark:border-stone-800/90 sticky top-0 h-screen shrink-0 justify-between p-6 shadow-sm transition-colors">
         <div>
           {/* Brand Header */}
           <Link href="/" className="flex items-center gap-2.5 group mb-8">
             <Image src="/pizza-logo.png" alt="PizzaHub" width={44} height={44} className="w-11 h-11 object-contain transition-transform group-hover:scale-110" />
             <div>
-              <span className="font-black text-xl uppercase tracking-tight font-[family-name:var(--font-heading)] block leading-tight">
+              <span className="font-black text-xl uppercase tracking-tight font-[family-name:var(--font-heading)] block leading-tight text-stone-900 dark:text-white">
                 Pizza<span className="text-red-500">Hub</span>
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
                 Dashboard Portal
               </span>
             </div>
           </Link>
 
           {/* Role Badge Indicator */}
-          <div className="mb-6 p-3 rounded-2xl bg-stone-950 border border-stone-800 flex items-center justify-between">
+          <div className="mb-6 p-3 rounded-2xl bg-stone-50 dark:bg-[#1c1916] border border-stone-200 dark:border-stone-800 flex items-center justify-between">
             <div>
-              <span className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider block">
+              <span className="text-[10px] text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider block">
                 Active Portal
               </span>
               <span className="text-xs font-black uppercase tracking-wider text-red-500 font-[family-name:var(--font-heading)]">
@@ -331,13 +331,13 @@ export default function DashboardLayout({
                   className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all group ${
                     isActive
                       ? "bg-red-600 text-white shadow-md shadow-red-600/30"
-                      : "text-stone-300 hover:bg-stone-800 hover:text-white"
+                      : "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800/80 hover:text-stone-900 dark:hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Icon
                       className={`w-4 h-4 transition-transform group-hover:scale-110 ${
-                        isActive ? "text-white" : "text-stone-400 group-hover:text-amber-400"
+                        isActive ? "text-white" : "text-stone-400 dark:text-stone-400 group-hover:text-amber-500"
                       }`}
                     />
                     <span>{item.name}</span>
@@ -347,7 +347,7 @@ export default function DashboardLayout({
                       className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
                         item.badge === "PRO"
                           ? "bg-amber-400 text-stone-950"
-                          : "bg-stone-800 text-stone-400 border border-stone-700"
+                          : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700"
                       }`}
                     >
                       {item.badge}
@@ -360,9 +360,9 @@ export default function DashboardLayout({
         </div>
 
         {/* Desktop Sidebar Bottom User Card & Logout */}
-        <div className="pt-6 border-t border-stone-800 space-y-3">
-          <div className="flex items-center gap-3 p-2 rounded-2xl bg-stone-950/60 border border-stone-800/80">
-            <div className="relative w-10 h-10 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center font-bold text-amber-400 uppercase overflow-hidden shrink-0">
+        <div className="pt-6 border-t border-stone-200 dark:border-stone-800 space-y-3">
+          <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-stone-50 dark:bg-[#1c1916] border border-stone-200 dark:border-stone-800">
+            <div className="relative w-10 h-10 rounded-full bg-stone-200 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 flex items-center justify-center font-bold text-amber-600 dark:text-amber-400 uppercase overflow-hidden shrink-0">
               {user.image ? (
                 <Image src={user.image} alt={user.name || "User"} fill className="object-cover" />
               ) : (
@@ -370,14 +370,14 @@ export default function DashboardLayout({
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-xs font-bold text-white truncate">{user.name || "User"}</div>
-              <div className="text-[10px] text-stone-400 truncate">{user.email}</div>
+              <div className="text-xs font-bold text-stone-900 dark:text-white truncate">{user.name || "User"}</div>
+              <div className="text-[10px] text-stone-500 dark:text-stone-400 truncate">{user.email}</div>
             </div>
           </div>
 
           <button
             onClick={handleSignOut}
-            className="w-full py-2.5 px-3 rounded-xl bg-stone-800/80 hover:bg-red-600 text-stone-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+            className="w-full py-2.5 px-3 rounded-xl bg-stone-100 dark:bg-stone-800/80 hover:bg-red-600 text-stone-700 dark:text-stone-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

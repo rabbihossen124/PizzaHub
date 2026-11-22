@@ -49,7 +49,7 @@ export default function VendorMenuItemsPage() {
   const fetchMyItems = async () => {
     setIsLoading(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/menu/vendor/my-items`, {
@@ -100,7 +100,7 @@ export default function VendorMenuItemsPage() {
 
     setIsUpdating(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/menu/${editingItem._id}`, {
@@ -141,7 +141,7 @@ export default function VendorMenuItemsPage() {
     setIsDeleting(true);
 
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/menu/${deletingId}`, {

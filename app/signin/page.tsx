@@ -12,9 +12,6 @@ import {
   Loader2,
   ArrowRight,
   ShieldCheck,
-  UserCheck,
-  Store,
-  Pizza,
 } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
@@ -95,11 +92,7 @@ function SignInContent() {
     }
   };
 
-  const quickFill = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setErrorMessage(null);
-  };
+
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -142,7 +135,7 @@ function SignInContent() {
                 <input
                   id="signin-email-input"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="Your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -254,47 +247,6 @@ function SignInContent() {
               )}
               <span>Continue with Google</span>
             </button>
-          </div>
-
-          {/* Demo Credentials Quick-Fill Strip */}
-          <div className="mt-8 pt-6 border-t border-stone-200 dark:border-stone-800">
-            <span className="block text-[11px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2.5 text-center">
-              ⚡ Quick Fill Demo Accounts
-            </span>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => quickFill("customer@pizzahub.com", "Customer123!")}
-                className="p-2 rounded-xl border border-stone-200 dark:border-stone-700 hover:border-red-500 bg-stone-50 dark:bg-stone-800/60 text-center transition-all cursor-pointer"
-              >
-                <Pizza className="w-3.5 h-3.5 text-red-500 mx-auto mb-1" />
-                <span className="text-[10px] font-bold uppercase block text-stone-800 dark:text-stone-200">
-                  Customer
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => quickFill("woodfire@pizzahub.com", "Vendor123!")}
-                className="p-2 rounded-xl border border-stone-200 dark:border-stone-700 hover:border-amber-500 bg-stone-50 dark:bg-stone-800/60 text-center transition-all cursor-pointer"
-              >
-                <Store className="w-3.5 h-3.5 text-amber-500 mx-auto mb-1" />
-                <span className="text-[10px] font-bold uppercase block text-stone-800 dark:text-stone-200">
-                  Vendor
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => quickFill("admin@pizzahub.com", "Admin123!")}
-                className="p-2 rounded-xl border border-stone-200 dark:border-stone-700 hover:border-purple-500 bg-stone-50 dark:bg-stone-800/60 text-center transition-all cursor-pointer"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-500 mx-auto mb-1" />
-                <span className="text-[10px] font-bold uppercase block text-stone-800 dark:text-stone-200">
-                  Admin
-                </span>
-              </button>
-            </div>
           </div>
 
           {/* Sign Up Link */}

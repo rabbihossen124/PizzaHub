@@ -174,7 +174,7 @@ function BrowseMenuContent() {
   useEffect(() => {
     async function fetchMeta() {
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const res = await fetch(`${serverUrl}/api/menu/meta`);
         if (res.ok) {
           const data = await res.json();
@@ -195,7 +195,7 @@ function BrowseMenuContent() {
     async function loadMenu() {
       setIsLoading(true);
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const queryParts: string[] = [];
 
         if (search.trim()) queryParts.push(`search=${encodeURIComponent(search.trim())}`);
@@ -322,25 +322,25 @@ function BrowseMenuContent() {
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex flex-col">
-      {/* 1. Caferio-Styled Hero Header */}
-      <section className="bg-stone-900 text-white py-14 sm:py-16 relative overflow-hidden border-b border-stone-800">
-        <div className="absolute inset-0 bg-[radial-gradient(#dc2626_1px,transparent_1px)] [background-size:20px_20px] opacity-10 pointer-events-none" />
+      {/* 1. Hero Header */}
+      <section className="bg-muted/40 dark:bg-muted/10 text-foreground py-14 sm:py-16 relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-[radial-gradient(#dc2626_1px,transparent_1px)] [background-size:20px_20px] opacity-5 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-800/80 text-red-400 text-xs font-bold tracking-widest uppercase mb-3">
-            <Flame className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-3">
+            <Flame className="w-3.5 h-3.5 text-primary" />
             Wood-Fired Pizza Kitchen
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)]">
-            Explore Our <span className="text-red-500">Handcrafted Menu</span>
+          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] text-foreground">
+            Explore Our <span className="text-primary">Handcrafted Menu</span>
           </h1>
-          <p className="mt-3 text-stone-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="mt-3 text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Fresh fermented dough, San Marzano sauce, and volcanic stone baking. Filter by your favorite category, nearest location, or sort by price.
           </p>
         </div>
       </section>
 
       {/* 2. Search & Filter Bar with Challenge 1: Advanced Price Sorting */}
-      <div className="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 sticky top-16 sm:top-20 z-20 shadow-sm backdrop-blur-md bg-white/95 dark:bg-stone-900/95">
+      <div className="bg-background/95 border-b border-border sticky top-16 sm:top-20 z-20 shadow-sm backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 items-center">
             {/* Search Input (5 Cols on LG) */}

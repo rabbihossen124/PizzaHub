@@ -17,9 +17,6 @@ import {
   LayoutDashboard,
   LogIn,
   UserPlus,
-  PhoneCall,
-  Clock,
-  Flame,
   ShoppingBag,
 } from "lucide-react";
 
@@ -53,66 +50,34 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full transition-all shadow-md">
-      {/* 1. Caferio-Inspired Top Info Bar */}
-      <div className="w-full bg-[#121110] text-[#e0deda] border-b border-amber-500/15 py-1.5 px-4 text-xs select-none">
-        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          {/* Left: Hotline & Service Area */}
-          <div className="flex items-center gap-4 text-[11px] sm:text-xs">
-            <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
-              <PhoneCall className="w-3.5 h-3.5" />
-              <span>Hotline: +880 1700-PIZZA (74992)</span>
+    <header className="sticky top-0 z-40 w-full transition-all border-b border-border/80 bg-background/95 backdrop-blur-md shadow-sm">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+        {/* PizzaHub Logo (Caferio Aesthetic with Cheesy Pizza Slice) */}
+        <Link
+          href="/"
+          className="flex items-center gap-3 group select-none transition-transform hover:scale-[1.02]"
+        >
+          <div className="relative w-12 h-12 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300">
+            <Image
+              src="/pizza-logo.png"
+              alt="PizzaHub Logo"
+              width={52}
+              height={52}
+              className="w-12 h-12 object-contain drop-shadow-md"
+              priority
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-heading font-extrabold text-2xl lg:text-3xl tracking-wide uppercase text-foreground leading-none flex items-center">
+              PIZZA<span className="text-primary font-black ml-0.5">HUB</span>
             </span>
-            <span className="hidden md:inline-block text-muted-foreground/60">|</span>
-            <span className="hidden md:flex items-center gap-1 text-muted-foreground">
-              <span>📍 Free Express Delivery in Dhaka over $25</span>
+            <span className="text-[10px] tracking-widest uppercase font-bold text-amber-600 dark:text-amber-400 leading-tight">
+              Authentic Stone-Baked
             </span>
           </div>
+        </Link>
 
-          {/* Right: Hours & Promo Code */}
-          <div className="flex items-center gap-3 text-[11px] sm:text-xs">
-            <span className="flex items-center gap-1 text-muted-foreground">
-              <Clock className="w-3 h-3 text-amber-500" />
-              <span>10:00 AM - 11:30 PM</span>
-            </span>
-            <span className="inline-block text-muted-foreground/60">|</span>
-            <span className="bg-primary/20 text-rose-400 px-2 py-0.5 rounded-full font-bold flex items-center gap-1 border border-primary/30">
-              <Flame className="w-3 h-3 text-primary animate-pulse" />
-              <span>20% OFF: PIZZA20</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Main Navigation Bar */}
-      <div className="w-full border-b border-border/80 bg-background/95 backdrop-blur-md">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-          {/* PizzaHub Logo (Caferio Aesthetic with Cheesy Pizza Slice) */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 group select-none transition-transform hover:scale-[1.02]"
-          >
-            <div className="relative w-12 h-12 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300">
-              <Image
-                src="/pizza-logo.png"
-                alt="PizzaHub Logo"
-                width={52}
-                height={52}
-                className="w-12 h-12 object-contain drop-shadow-md"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading font-extrabold text-2xl lg:text-3xl tracking-wide uppercase text-foreground leading-none flex items-center">
-                PIZZA<span className="text-primary font-black ml-0.5">HUB</span>
-              </span>
-              <span className="text-[10px] tracking-widest uppercase font-bold text-amber-600 dark:text-amber-400 leading-tight">
-                Authentic Stone-Baked
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-2 lg:gap-4">
             {navLinks.map((link) => {
               const isActive =
@@ -187,7 +152,6 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </div>
 
       {/* Mobile Menu Dropdown Drawer */}
       {mobileMenuOpen && (

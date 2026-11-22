@@ -1,0 +1,167 @@
+const fs = require('fs');
+const sharp = require('sharp');
+
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Crust Gradient -->
+    <linearGradient id="crustGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="20%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#FDE68A"/>
+      <stop offset="80%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+
+    <!-- Cheese Gradient -->
+    <radialGradient id="cheeseGrad" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="35%" stop-color="#FDE047"/>
+      <stop offset="70%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </radialGradient>
+
+    <!-- Tomato Sauce Gradient -->
+    <radialGradient id="sauceGrad" cx="50%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="60%" stop-color="#DC2626"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </radialGradient>
+
+    <!-- Pepperoni Gradient 1 -->
+    <radialGradient id="pepGrad1" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#F87171"/>
+      <stop offset="45%" stop-color="#DC2626"/>
+      <stop offset="85%" stop-color="#991B1B"/>
+      <stop offset="100%" stop-color="#7F1D1D"/>
+    </radialGradient>
+
+    <!-- Pepperoni Gradient 2 -->
+    <radialGradient id="pepGrad2" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="50%" stop-color="#B91C1C"/>
+      <stop offset="90%" stop-color="#7F1D1D"/>
+      <stop offset="100%" stop-color="#450A0A"/>
+    </radialGradient>
+
+    <!-- Basil Leaf Gradient -->
+    <linearGradient id="basilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80"/>
+      <stop offset="50%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#15803D"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+
+    <filter id="pepGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7F1D1D" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Pizza Slice Body with Shadow -->
+  <g filter="url(#dropShadow)">
+    <!-- Sauce Base Foundation -->
+    <path d="M 52 102 Q 256 36 460 102 L 256 466 Z" fill="url(#sauceGrad)" />
+
+    <!-- Stone-baked Crispy Crust Arch -->
+    <path d="M 40 106 Q 256 22 472 106 Q 458 72 256 44 Q 54 72 40 106 Z" fill="url(#crustGrad)" stroke="#92400E" stroke-width="2.5"/>
+    
+    <!-- Crust Blister Char Marks -->
+    <ellipse cx="120" cy="74" rx="12" ry="5" fill="#78350F" opacity="0.75" transform="rotate(-12 120 74)"/>
+    <ellipse cx="220" cy="58" rx="16" ry="6" fill="#78350F" opacity="0.65" transform="rotate(-2 220 58)"/>
+    <ellipse cx="320" cy="62" rx="14" ry="5" fill="#78350F" opacity="0.75" transform="rotate(8 320 62)"/>
+    <ellipse cx="400" cy="82" rx="10" ry="4" fill="#78350F" opacity="0.7" transform="rotate(18 400 82)"/>
+
+    <!-- Melting Gooey Cheese Base -->
+    <path d="M 68 114 Q 256 64 444 114 L 285 415 Q 275 444 256 454 Q 237 444 227 415 Z" fill="url(#cheeseGrad)" />
+
+    <!-- Dripping Cheese Melts at the Tip -->
+    <path d="M 238 420 C 238 455 248 485 252 490 C 255 493 259 493 261 488 C 265 474 274 448 274 420 Z" fill="#FDE047"/>
+    <path d="M 220 380 C 218 410 224 435 228 438 C 231 440 233 434 234 415 Z" fill="#F59E0B" opacity="0.95"/>
+    <path d="M 280 385 C 282 414 286 430 289 432 C 291 434 293 424 292 395 Z" fill="#FBBF24"/>
+
+    <!-- Pepperoni 1 (Top Left) -->
+    <g filter="url(#pepGlow)">
+      <ellipse cx="165" cy="165" rx="38" ry="32" fill="url(#pepGrad1)" transform="rotate(-8 165 165)"/>
+      <circle cx="155" cy="155" r="3.5" fill="#FEE2E2" opacity="0.65"/>
+      <circle cx="178" cy="170" r="2.5" fill="#FEE2E2" opacity="0.55"/>
+      <circle cx="168" cy="150" r="2" fill="#7F1D1D"/>
+      <circle cx="150" cy="172" r="2.5" fill="#7F1D1D"/>
+      <path d="M 132 162 A 38 32 0 0 1 192 150" fill="none" stroke="#FCA5A5" stroke-width="2.5" opacity="0.75" transform="rotate(-8 165 165)"/>
+    </g>
+
+    <!-- Pepperoni 2 (Top Center-Right) -->
+    <g filter="url(#pepGlow)">
+      <ellipse cx="320" cy="155" rx="42" ry="35" fill="url(#pepGrad2)" transform="rotate(12 320 155)"/>
+      <circle cx="310" cy="145" r="3" fill="#FEE2E2" opacity="0.65"/>
+      <circle cx="335" cy="160" r="2.5" fill="#FEE2E2" opacity="0.6"/>
+      <circle cx="325" cy="140" r="2.5" fill="#7F1D1D"/>
+      <path d="M 286 152 A 42 35 0 0 1 355 142" fill="none" stroke="#FCA5A5" stroke-width="2.5" opacity="0.75" transform="rotate(12 320 155)"/>
+    </g>
+
+    <!-- Pepperoni 3 (Center) -->
+    <g filter="url(#pepGlow)">
+      <ellipse cx="235" cy="255" rx="40" ry="34" fill="url(#pepGrad1)" transform="rotate(4 235 255)"/>
+      <circle cx="225" cy="245" r="3.5" fill="#FEE2E2" opacity="0.7"/>
+      <circle cx="248" cy="262" r="2.5" fill="#FEE2E2" opacity="0.65"/>
+      <circle cx="238" cy="240" r="2" fill="#7F1D1D"/>
+      <path d="M 202 252 A 40 34 0 0 1 268 240" fill="none" stroke="#FCA5A5" stroke-width="2.5" opacity="0.75" transform="rotate(4 235 255)"/>
+    </g>
+
+    <!-- Pepperoni 4 (Lower Middle Right) -->
+    <g filter="url(#pepGlow)">
+      <ellipse cx="320" cy="285" rx="34" ry="28" fill="url(#pepGrad2)" transform="rotate(-10 320 285)"/>
+      <circle cx="315" cy="278" r="3" fill="#FEE2E2" opacity="0.65"/>
+      <circle cx="330" cy="290" r="2" fill="#FEE2E2" opacity="0.55"/>
+    </g>
+
+    <!-- Pepperoni 5 (Near Tip) -->
+    <g filter="url(#pepGlow)">
+      <ellipse cx="256" cy="355" rx="28" ry="23" fill="url(#pepGrad1)" transform="rotate(5 256 355)"/>
+      <circle cx="250" cy="350" r="2.5" fill="#FEE2E2" opacity="0.7"/>
+    </g>
+
+    <!-- Black Olives -->
+    <ellipse cx="135" cy="235" rx="14" ry="11" fill="#18181B" stroke="#27272A" stroke-width="2"/>
+    <ellipse cx="135" cy="235" rx="6" ry="4.5" fill="#D97706"/>
+
+    <ellipse cx="275" cy="195" rx="13" ry="10" fill="#18181B" stroke="#27272A" stroke-width="2" transform="rotate(20 275 195)"/>
+    <ellipse cx="275" cy="195" rx="5.5" ry="4" fill="#F59E0B" transform="rotate(20 275 195)"/>
+
+    <ellipse cx="175" cy="330" rx="12" ry="9.5" fill="#18181B" stroke="#27272A" stroke-width="2" transform="rotate(-15 175 330)"/>
+    <ellipse cx="175" cy="330" rx="5" ry="4" fill="#F59E0B" transform="rotate(-15 175 330)"/>
+
+    <!-- Fresh Basil Leaves -->
+    <path d="M 215 180 C 200 160 215 140 235 148 C 245 162 235 188 215 180 Z" fill="url(#basilGrad)" stroke="#15803D" stroke-width="1.5"/>
+    <path d="M 216 178 Q 224 163 234 150" fill="none" stroke="#86EFAC" stroke-width="1.5" opacity="0.8"/>
+    
+    <path d="M 295 335 C 280 325 290 305 310 310 C 320 325 310 345 295 335 Z" fill="url(#basilGrad)" stroke="#15803D" stroke-width="1.5"/>
+    <path d="M 296 334 Q 301 322 309 312" fill="none" stroke="#86EFAC" stroke-width="1.2" opacity="0.8"/>
+
+    <!-- Melted Mozzarella Swirl Highlights -->
+    <path d="M 95 145 Q 120 130 145 138" fill="none" stroke="#FFFBEB" stroke-width="4.5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 360 178 Q 385 172 405 195" fill="none" stroke="#FFFBEB" stroke-width="4.5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 205 300 Q 228 310 240 305" fill="none" stroke="#FFFBEB" stroke-width="4" stroke-linecap="round" opacity="0.65"/>
+
+    <!-- Hot Sizzle Steam / Heat Waves at the top -->
+    <path d="M 180 44 Q 170 24 185 10" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+    <path d="M 256 34 Q 246 14 260 2" fill="none" stroke="#EF4444" stroke-width="3.5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 330 42 Q 340 22 325 8" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+  </g>
+</svg>`;
+
+fs.writeFileSync('public/pizza-logo.svg', svg, 'utf-8');
+
+sharp(Buffer.from(svg))
+  .resize(512, 512)
+  .png({ compressionLevel: 9 })
+  .toFile('public/pizza-logo.png')
+  .then(() => {
+    console.log('Successfully generated crisp transparent public/pizza-logo.png and public/pizza-logo.svg');
+  })
+  .catch((err) => {
+    console.error('Error:', err);
+    process.exit(1);
+  });

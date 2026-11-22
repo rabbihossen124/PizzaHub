@@ -60,7 +60,7 @@ export default function AdminOverviewPage() {
     async function loadStats() {
       setIsLoading(true);
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const res = await fetch(`${serverUrl}/api/admin/stats`, {
@@ -95,17 +95,17 @@ export default function AdminOverviewPage() {
       {/* ============================================================== */}
       {/* 1. Header Banner */}
       {/* ============================================================== */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#161412] text-white p-6 sm:p-8 border border-stone-800 shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-500/10 via-amber-500/10 to-transparent dark:from-stone-900 dark:via-stone-900/80 dark:to-stone-900 border border-stone-200 dark:border-stone-800 p-6 sm:p-8 shadow-sm">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-800 text-red-400 text-xs font-bold tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 dark:bg-red-950/80 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-xs font-bold tracking-widest uppercase">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
               Platform Command Center
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] text-white">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] text-stone-900 dark:text-white">
               Administrator <span className="text-red-500">Overview</span>
             </h1>
-            <p className="text-xs sm:text-sm text-stone-300 max-w-xl font-normal leading-relaxed">
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-xl font-normal leading-relaxed">
               Monitor PizzaHub users, moderate artisan menu submissions, track orders, and audit Stripe subscription revenues across the entire platform.
             </p>
           </div>

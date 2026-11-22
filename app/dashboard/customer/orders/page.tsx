@@ -80,7 +80,7 @@ export default function CustomerOrdersPage() {
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const queryParts: string[] = [];
@@ -125,7 +125,7 @@ export default function CustomerOrdersPage() {
     if (!cancellingOrder) return;
     setIsCancelling(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/orders/${cancellingOrder._id}/cancel`, {

@@ -215,7 +215,7 @@ export default function SignUpPage() {
                   <input
                     id="business-name-input"
                     type="text"
-                    placeholder="e.g. Bella Napoli Artisan Kitchen"
+                    placeholder="Your restaurant or kitchen name"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-sm text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500/50"
@@ -237,7 +237,7 @@ export default function SignUpPage() {
                 <input
                   id="full-name-input"
                   type="text"
-                  placeholder="e.g. Marco Rossi"
+                  placeholder="Your full name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -259,7 +259,7 @@ export default function SignUpPage() {
                 <input
                   id="email-address-input"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="Your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -281,7 +281,7 @@ export default function SignUpPage() {
                 <input
                   id="password-input"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Create a strong password"
+                  placeholder="Your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -351,7 +351,7 @@ export default function SignUpPage() {
                 <input
                   id="profile-image-input"
                   type="url"
-                  placeholder="https://images.unsplash.com/photo-..."
+                  placeholder="Your profile image URL"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-sm text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500/50"

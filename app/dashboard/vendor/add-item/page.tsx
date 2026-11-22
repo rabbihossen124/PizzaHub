@@ -46,7 +46,7 @@ export default function AddMenuItemPage() {
   useEffect(() => {
     async function verifyLimit() {
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const res = await fetch(`${serverUrl}/api/vendor/limit-check`, {
@@ -149,7 +149,7 @@ export default function AddMenuItemPage() {
     setIsSubmitting(true);
 
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/menu`, {
@@ -266,7 +266,7 @@ export default function AddMenuItemPage() {
                 <input
                   id="item-name-input"
                   type="text"
-                  placeholder="e.g. Smoky Truffle & Wild Mushroom"
+                  placeholder="Your pizza item name"
                   value={itemName}
                   onChange={(e) => setItemName(e.target.value)}
                   required
@@ -347,7 +347,7 @@ export default function AddMenuItemPage() {
                 <input
                   id="item-location-input"
                   type="text"
-                  placeholder="e.g. Downtown Manhattan, NY"
+                  placeholder="Your kitchen city or neighborhood"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   required

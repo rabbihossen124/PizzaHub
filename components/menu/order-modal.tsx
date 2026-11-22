@@ -70,7 +70,7 @@ export function OrderModal({ item, isOpen, onClose }: OrderModalProps) {
     setIsSubmitting(true);
 
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/orders`, {
@@ -263,7 +263,7 @@ export function OrderModal({ item, isOpen, onClose }: OrderModalProps) {
               <textarea
                 id="special-instructions-input"
                 rows={2}
-                placeholder="e.g. Extra napkins, please leave at apartment door, ring bell..."
+                placeholder="Special delivery notes or instructions..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-sm text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none"

@@ -43,7 +43,7 @@ function PaymentSuccessContent() {
       }
 
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const res = await fetch(`${serverUrl}/api/payment/confirm-session`, {
@@ -65,24 +65,39 @@ function PaymentSuccessContent() {
             plan: "PizzaHub Premium Vendor Plan",
           });
           toast.success("Premium subscription activated successfully!");
+
+          // Re-sync JWT and user session with backend so the vendor's isPremium becomes true in state
+          if (user?.email) {
+            try {
+              const syncRes = await fetch(`${serverUrl}/api/auth/token`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email: user.email,
+                  name: user.name,
+                  role: user.role,
+                  image: user.image,
+                }),
+              });
+              const syncData = await syncRes.json();
+              if (syncData.success && syncData.token) {
+                localStorage.setItem("pizzahub_jwt", syncData.token);
+              }
+            } catch (syncErr) {
+              console.warn("Auth token re-sync error after payment:", syncErr);
+            }
+          }
         } else {
-          // If already verified or webhook handled it
-          setIsSuccess(true);
-          setPaymentDetails({
-            id: sessionId,
-            amount: 29.0,
-            plan: "PizzaHub Premium Vendor Plan",
-          });
+          setIsSuccess(false);
+          const msg = data.message || "Payment verification failed. Your account remains on the Free tier.";
+          setErrorMessage(msg);
+          toast.error(msg);
         }
       } catch (err) {
         console.error("Verification error:", err);
-        // Fallback: If network issue, assume success since Stripe completed
-        setIsSuccess(true);
-        setPaymentDetails({
-          id: sessionId,
-          amount: 29.0,
-          plan: "PizzaHub Premium Vendor Plan",
-        });
+        setIsSuccess(false);
+        setErrorMessage("Network error while verifying payment session. Please check your connection or retry.");
+        toast.error("Could not verify payment session.");
       } finally {
         setIsLoading(false);
       }

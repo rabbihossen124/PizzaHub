@@ -90,14 +90,14 @@ const FALLBACK_FEATURED_ITEMS: MenuItem[] = [
 ];
 
 export function FeaturedMenu() {
-  const [items, setItems] = useState<MenuItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [items, setItems] = useState<MenuItem[]>(FALLBACK_FEATURED_ITEMS);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     async function fetchFeatured() {
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const res = await fetch(`${serverUrl}/api/menu/featured`, {
           cache: "no-store",
         });

@@ -36,7 +36,7 @@ export default function AdminTransactionsPage() {
     async function fetchTransactions() {
       setIsLoading(true);
       try {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const res = await fetch(`${serverUrl}/api/admin/transactions`, {

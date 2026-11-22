@@ -68,7 +68,7 @@ export default function CustomerDashboardPage() {
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const headers = {
@@ -112,7 +112,7 @@ export default function CustomerDashboardPage() {
     if (!cancellingOrder) return;
     setIsCancelling(true);
     try {
-      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
       const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
       const res = await fetch(`${serverUrl}/api/orders/${cancellingOrder._id}/cancel`, {
@@ -144,25 +144,25 @@ export default function CustomerDashboardPage() {
       {/* ============================================================== */}
       {/* 1. Caferio Welcome Banner */}
       {/* ============================================================== */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#161412] text-white p-6 sm:p-8 border border-stone-800 shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-500/10 via-amber-500/10 to-transparent dark:from-stone-900 dark:via-stone-900/80 dark:to-stone-900 border border-stone-200 dark:border-stone-800 p-6 sm:p-8 shadow-sm">
         <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none hidden md:block">
           <div className="w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500 via-red-600 to-transparent" />
         </div>
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-800 text-red-400 text-xs font-bold tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 dark:bg-red-950/80 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-xs font-bold tracking-widest uppercase">
               <Flame className="w-3.5 h-3.5 text-amber-500" />
               Customer Kitchen Hub
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] text-white">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight font-[family-name:var(--font-heading)] text-stone-900 dark:text-white">
               Welcome back,{" "}
               <span className="text-red-500">
                 {user?.name || "Pizza Lover"}
               </span>
               !
             </h1>
-            <p className="text-xs sm:text-sm text-stone-300 max-w-xl font-normal leading-relaxed">
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-xl font-normal leading-relaxed">
               Track your artisanal wood-fired pizza cravings, monitor active kitchen orders in real-time, or explore our handcrafted artisan menu.
             </p>
           </div>
@@ -177,7 +177,7 @@ export default function CustomerDashboardPage() {
             </Link>
             <Link
               href="/dashboard/customer/orders"
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold uppercase text-xs tracking-wider border border-stone-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-bold uppercase text-xs tracking-wider border border-stone-200 dark:border-stone-700 transition-colors"
             >
               <span>My Orders</span>
               <ArrowRight className="w-4 h-4" />
