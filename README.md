@@ -10,7 +10,7 @@
 
 - [Project Overview](#-project-overview)
 - [Live Deployments & Repositories](#-live-deployments--repositories)
-- [Demo Credentials](#-demo-credentials)
+- [Admin Credentials](#-admin-credentials)
 - [Design Theme & Visual Identity](#-design-theme--visual-identity)
 - [Key Features by Role](#-key-features-by-role)
   - [1. Public Experience & Marketplace](#1-public-experience--marketplace)
@@ -46,15 +46,13 @@ PizzaHub solves the problem of generic fast-food platforms by creating an artisa
 
 ---
 
-## 🔑 Test Credentials (Active & Tested)
+## 🔑 Admin Credentials
 
-To experience all role-based dashboards immediately without manual registration, sign in on the [Sign In Page](https://pizzahub-orcin.vercel.app/signin) with:
+Sign in on the [Sign In Page](https://pizzahub-orcin.vercel.app/signin) with the Administrator account:
 
 | Role | Email | Password | Access Privileges |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@gmail.com` | `123456` | Full governance, user blocking/unblocking, menu approval/rejection, and immutable Stripe transaction auditing |
-| **Pizzeria Vendor** | `vendor1@gmail.com` | `123456` | Menu item CRUD, ImgBB file uploads, 3-item limit validation, Stripe $29 Premium upgrade, and kitchen order Accept/Reject |
-| **Customer** | `joy@gmail.com` | `joy123` | Pizza ordering with date picker, duplicate order validation, kitchen timeline tracker, order cancellation, and printable receipts |
+| **Administrator** | `admin@gmail.com` | `123456` | Full governance, user blocking/unblocking, menu approval/rejection, and transaction auditing |
 
 ---
 
