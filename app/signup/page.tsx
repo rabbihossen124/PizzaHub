@@ -41,7 +41,7 @@ export default function SignUpPage() {
   const hasMinLength = password.length >= 6;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
-  const isPasswordValid = hasMinLength && hasUppercase && hasLowercase;
+  const isPasswordValid = hasMinLength;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,9 +58,7 @@ export default function SignUpPage() {
     }
 
     if (!isPasswordValid) {
-      setErrorMessage(
-        "Password must be at least 6 characters and contain at least one uppercase and one lowercase letter."
-      );
+      setErrorMessage("Password must be at least 6 characters long.");
       return;
     }
 
