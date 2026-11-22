@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -14,6 +14,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
+import { useAuth } from "@/lib/auth-helpers";
 import { toast } from "sonner";
 
 function SignInContent() {
@@ -21,12 +22,31 @@ function SignInContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
 
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Auto-redirect if user is already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && user) {
+      let dest = "/dashboard";
+      if (callbackUrl && !callbackUrl.includes("/signin")) {
+        dest = callbackUrl;
+      } else if (user.role === "admin") {
+        dest = "/dashboard/admin";
+      } else if (user.role === "vendor") {
+        dest = "/dashboard/vendor";
+      } else if (user.role === "customer") {
+        dest = "/dashboard/customer";
+      }
+      window.location.href = dest;
+    }
+  }, [authLoading, isAuthenticated, user, callbackUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,22 +72,25 @@ function SignInContent() {
         return;
       }
 
-      toast.success("Signed in successfully! Welcome back.");
+      toast.success("Signed in successfully! Redirecting...");
 
-      // Check role from session user or backend token sync
-      const user = data?.user as Record<string, unknown> | undefined;
-      const role = (user?.role as string) || "customer";
+      // Determine target destination
+      const loggedUser = data?.user as Record<string, unknown> | undefined;
+      const role = (loggedUser?.role as string) || "";
 
-      // Role-based redirection rule
-      if (callbackUrl && !callbackUrl.includes("/dashboard/")) {
-        router.push(callbackUrl);
+      let destination = "/dashboard";
+      if (callbackUrl && !callbackUrl.includes("/signin")) {
+        destination = callbackUrl;
       } else if (role === "admin") {
-        router.push("/dashboard/admin");
+        destination = "/dashboard/admin";
       } else if (role === "vendor") {
-        router.push("/dashboard/vendor");
-      } else {
-        router.push("/dashboard/customer");
+        destination = "/dashboard/vendor";
+      } else if (role === "customer") {
+        destination = "/dashboard/customer";
       }
+
+      // Full navigation ensures cookies and auth session are freshly committed
+      window.location.href = destination;
     } catch (err: unknown) {
       console.error("Sign in error:", err);
       const msg = err instanceof Error ? err.message : "An unexpected error occurred.";

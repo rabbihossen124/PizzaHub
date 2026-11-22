@@ -82,11 +82,8 @@ export default function SignUpPage() {
       } else {
         toast.success(`Welcome to PizzaHub, ${name.trim()}! Account created.`);
         // Redirect according to chosen role
-        if (role === "vendor") {
-          router.push("/dashboard/vendor");
-        } else {
-          router.push("/dashboard/customer");
-        }
+        const destination = role === "vendor" ? "/dashboard/vendor" : "/dashboard/customer";
+        window.location.href = destination;
       }
     } catch (err: unknown) {
       console.error("Sign up error:", err);
