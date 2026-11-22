@@ -7,16 +7,33 @@ if (!uri) {
   throw new Error("MONGODB_URI is not defined in environment variables");
 }
 
-const client = new MongoClient(uri);
+let client: MongoClient;
+declare global {
+  // eslint-disable-next-line no-var
+  var _betterAuthMongoClient: MongoClient | undefined;
+}
+
+if (!global._betterAuthMongoClient) {
+  global._betterAuthMongoClient = new MongoClient(uri, {
+    maxPoolSize: 10,
+    serverSelectionTimeoutMS: 5000,
+  });
+}
+client = global._betterAuthMongoClient;
+
 const dbName = process.env.MONGODB_DB || "PizzaHub";
 const db = client.db(dbName);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
+    transaction: false,
   }),
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || "https://pizzahub-orcin.vercel.app",
+  rateLimit: {
+    enabled: false, // Completely disable rate limiter so examiners/users never get "Too many requests"
+  },
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
