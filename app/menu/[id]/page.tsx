@@ -22,56 +22,7 @@ import { useAuth } from "@/lib/auth-helpers";
 import { OrderModal } from "@/components/menu/order-modal";
 
 // Fallback items in case server is cold-starting
-const FALLBACK_ITEMS: MenuItem[] = [
-  {
-    _id: "655000000000000000000011",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Classic Margherita Rustica",
-    category: "Classic Pizzas",
-    description: "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic sweet basil leaves, and cold-pressed olive oil baked in an 800°F stone oven.",
-    price: 14.99,
-    location: "Downtown Manhattan, NY",
-    images: [
-      "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80",
-    ],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000012",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Double Pepperoni Inferno",
-    category: "Meat Lovers",
-    description: "Loaded with crispy-cupped spicy Italian beef pepperoni, aged Wisconsin mozzarella, smoked provolone, and signature slow-simmered marinara.",
-    price: 18.50,
-    location: "Downtown Manhattan, NY",
-    images: [
-      "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=800&q=80",
-    ],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000013",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Smoked Truffle & Wild Mushroom",
-    category: "Specialty / Gourmet Pizzas",
-    description: "Roasted cremini, shiitake and oyster mushrooms infused with white truffle olive oil, creamy taleggio cheese, and roasted garlic cream.",
-    price: 21.99,
-    location: "Brooklyn Heights, NY",
-    images: [
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
-    ],
-    status: "approved",
-  },
-];
+const FALLBACK_ITEMS: MenuItem[] = [];
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -121,14 +72,7 @@ export default function ItemDetailsPage({ params }: PageProps) {
             setSelectedImage(initialImg);
           }
         } else {
-          // Check fallback list if server is offline or mock ID
-          const fallback = FALLBACK_ITEMS.find((f) => f._id === itemId) || FALLBACK_ITEMS[0];
-          if (fallback && isMounted) {
-            setItem(fallback);
-            setSelectedImage(fallback.images[0]);
-          } else if (isMounted) {
-            setError("Invalid menu item ID or the item is no longer available.");
-          }
+          if (isMounted) setError("This pizza item was not found or is no longer available.");
         }
       } catch (err) {
         console.warn("Could not reach server, checking fallback items:", err);

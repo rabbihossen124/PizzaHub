@@ -17,112 +17,7 @@ import { MenuItem, MENU_CATEGORIES } from "@/lib/types";
 import { MenuCard } from "@/components/menu/menu-card";
 
 // Curated approved items fallback to guarantee robustness if server is cold-starting
-const FALLBACK_ITEMS: MenuItem[] = [
-  {
-    _id: "655000000000000000000011",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Classic Margherita Rustica",
-    category: "Classic Pizzas",
-    description: "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic sweet basil leaves, and cold-pressed olive oil baked in an 800°F stone oven.",
-    price: 14.99,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000012",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Double Pepperoni Inferno",
-    category: "Meat Lovers",
-    description: "Loaded with crispy-cupped spicy Italian beef pepperoni, aged Wisconsin mozzarella, smoked provolone, and signature slow-simmered marinara.",
-    price: 18.50,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000013",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Smoked Truffle & Wild Mushroom",
-    category: "Specialty / Gourmet Pizzas",
-    description: "Roasted cremini, shiitake and oyster mushrooms infused with white truffle olive oil, creamy taleggio cheese, and roasted garlic cream.",
-    price: 21.99,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000014",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Smoky BBQ Pulled Chicken",
-    category: "Meat Lovers",
-    description: "Tender hickory smoked barbecue pulled chicken, sweet caramelized red onions, sharp aged cheddar blend, and smoky bourbon BBQ drizzle.",
-    price: 19.25,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000015",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Mediterranean Garden Feast",
-    category: "Vegetarian Pizzas",
-    description: "Baby spinach, kalamata olives, fire-roasted sweet bell peppers, marinated artichoke hearts, sundried tomatoes, and crumbled Greek feta.",
-    price: 16.75,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000016",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Fiery Calabrian Salami",
-    category: "Meat Lovers",
-    description: "Spicy Calabrian soppressata, crushed red hot chili flakes, roasted red peppers, creamy ricotta dollops, hot honey drizzle, and fresh mozzarella.",
-    price: 20.50,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000017",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Parmesan Herb Garlic Knots",
-    category: "Sides & Appetizers",
-    description: "Freshly baked golden dough knots tossed in rich garlic butter, toasted Italian herbs, grated aged Parmigiano-Reggiano, with warm marinara.",
-    price: 8.99,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000018",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Classic Espresso Tiramisu",
-    category: "Beverages & Desserts",
-    description: "Traditional layered Italian dessert featuring delicate ladyfinger biscuits soaked in rich espresso, sweet mascarpone cream, and dark cocoa.",
-    price: 7.50,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-];
+const FALLBACK_ITEMS: MenuItem[] = [];
 
 const DEFAULT_LOCATIONS = [
   "Downtown Manhattan, NY",
@@ -219,11 +114,11 @@ function BrowseMenuContent() {
           }
         } else {
           // Filter & sort fallback items client-side if server is unavailable
-          filterFallback();
+          if (isMounted) setItems([]);
         }
       } catch (err) {
         console.warn("Server unavailable, using filtered fallback:", err);
-        filterFallback();
+        if (isMounted) setItems([]);
       } finally {
         if (isMounted) setIsLoading(false);
       }

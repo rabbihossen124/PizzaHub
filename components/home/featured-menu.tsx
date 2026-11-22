@@ -7,95 +7,14 @@ import { motion } from "motion/react";
 import { Flame, MapPin, Store, ArrowRight, Star } from "lucide-react";
 import { MenuItem } from "@/lib/types";
 
-// Curated fallback approved items ensuring immediate visual excellence
-const FALLBACK_FEATURED_ITEMS: MenuItem[] = [
-  {
-    _id: "655000000000000000000011",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Classic Margherita Rustica",
-    category: "Classic Pizzas",
-    description: "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic sweet basil leaves, and cold-pressed olive oil baked in an 800°F stone oven.",
-    price: 14.99,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000012",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Double Pepperoni Inferno",
-    category: "Meat Lovers",
-    description: "Loaded with crispy-cupped spicy Italian beef pepperoni, aged Wisconsin mozzarella, smoked provolone, and signature slow-simmered marinara.",
-    price: 18.50,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000013",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Smoked Truffle & Wild Mushroom",
-    category: "Specialty / Gourmet Pizzas",
-    description: "Roasted cremini, shiitake and oyster mushrooms infused with white truffle olive oil, creamy taleggio cheese, and roasted garlic cream.",
-    price: 21.99,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000014",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Smoky BBQ Pulled Chicken",
-    category: "Meat Lovers",
-    description: "Tender hickory smoked barbecue pulled chicken, sweet caramelized red onions, sharp aged cheddar blend, and smoky bourbon BBQ drizzle.",
-    price: 19.25,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000015",
-    vendorId: "655000000000000000000001",
-    vendorEmail: "bellanapoli@pizzahub.com",
-    vendorName: "Bella Napoli Kitchen",
-    itemName: "Mediterranean Garden Feast",
-    category: "Vegetarian Pizzas",
-    description: "Baby spinach, kalamata olives, fire-roasted sweet bell peppers, marinated artichoke hearts, sundried tomatoes, and crumbled Greek feta.",
-    price: 16.75,
-    location: "Downtown Manhattan, NY",
-    images: ["https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-  {
-    _id: "655000000000000000000016",
-    vendorId: "655000000000000000000002",
-    vendorEmail: "woodfire@pizzahub.com",
-    vendorName: "Artisan Woodfire Pizzeria",
-    itemName: "Fiery Calabrian Salami",
-    category: "Meat Lovers",
-    description: "Spicy Calabrian soppressata, crushed red hot chili flakes, roasted red peppers, creamy ricotta dollops, hot honey drizzle, and fresh mozzarella.",
-    price: 20.50,
-    location: "Brooklyn Heights, NY",
-    images: ["https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=800&q=80"],
-    status: "approved",
-  },
-];
-
 export function FeaturedMenu() {
-  const [items, setItems] = useState<MenuItem[]>(FALLBACK_FEATURED_ITEMS);
-  const [isLoading, setIsLoading] = useState(false);
+  const [items, setItems] = useState<MenuItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
     async function fetchFeatured() {
+      setIsLoading(true);
       try {
         const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
         const res = await fetch(`${serverUrl}/api/menu/featured`, {
@@ -104,18 +23,14 @@ export function FeaturedMenu() {
         if (res.ok) {
           const data = await res.json();
           if (isMounted) {
-            if (data.items && data.items.length >= 4) {
-              setItems(data.items);
-            } else {
-              setItems(FALLBACK_FEATURED_ITEMS);
-            }
+            setItems(data.items || []);
           }
         } else {
-          if (isMounted) setItems(FALLBACK_FEATURED_ITEMS);
+          if (isMounted) setItems([]);
         }
       } catch (err) {
-        console.warn("Could not reach backend /api/menu/featured, using curated fallback:", err);
-        if (isMounted) setItems(FALLBACK_FEATURED_ITEMS);
+        console.warn("Could not reach backend /api/menu/featured:", err);
+        if (isMounted) setItems([]);
       } finally {
         if (isMounted) setIsLoading(false);
       }
@@ -166,7 +81,7 @@ export function FeaturedMenu() {
         )}
 
         {/* Menu Cards Grid */}
-        {!isLoading && (
+        {!isLoading && items.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -251,6 +166,21 @@ export function FeaturedMenu() {
               </motion.div>
             ))}
           </motion.div>
+        )}
+
+        {/* Empty State when no items published */}
+        {!isLoading && items.length === 0 && (
+          <div className="text-center py-16 px-4 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 max-w-xl mx-auto shadow-sm">
+            <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center mx-auto mb-4">
+              <Flame className="w-8 h-8 text-red-600" />
+            </div>
+            <h3 className="text-xl font-bold uppercase tracking-tight text-stone-900 dark:text-white font-[family-name:var(--font-heading)]">
+              Fresh Pizzas Baking Soon
+            </h3>
+            <p className="mt-2 text-stone-600 dark:text-stone-400 text-sm">
+              Our partner kitchens are currently crafting artisan recipes. Check back shortly or browse our full menu.
+            </p>
+          </div>
         )}
 
         {/* View All Menu CTA */}
