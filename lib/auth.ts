@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
-import { MongoClient } from "mongodb";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
@@ -11,15 +11,35 @@ let client: MongoClient;
 declare global {
   // eslint-disable-next-line no-var
   var _betterAuthMongoClient: MongoClient | undefined;
+  // eslint-disable-next-line no-var
+  var _betterAuthMongoPromise: Promise<MongoClient> | undefined;
 }
 
 if (!global._betterAuthMongoClient) {
   global._betterAuthMongoClient = new MongoClient(uri, {
     maxPoolSize: 10,
-    serverSelectionTimeoutMS: 5000,
+    minPoolSize: 0,
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 20000,
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: false,
+      deprecationErrors: true,
+    },
   });
 }
 client = global._betterAuthMongoClient;
+
+export async function ensureAuthDbConnected() {
+  if (!global._betterAuthMongoPromise) {
+    global._betterAuthMongoPromise = client.connect().catch((err) => {
+      global._betterAuthMongoPromise = undefined;
+      throw err;
+    });
+  }
+  await global._betterAuthMongoPromise;
+}
 
 const dbName = process.env.MONGODB_DB || "PizzaHub";
 const db = client.db(dbName);
@@ -31,6 +51,11 @@ export const auth = betterAuth({
   }),
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || "https://pizzahub-orcin.vercel.app",
+  trustedOrigins: [
+    "https://pizzahub-orcin.vercel.app",
+    "http://localhost:3000",
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+  ],
   rateLimit: {
     enabled: false, // Completely disable rate limiter so examiners/users never get "Too many requests"
   },
