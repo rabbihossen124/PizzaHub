@@ -17,6 +17,36 @@ export interface PizzaHubUser {
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
 
+// Deduplicate concurrent /api/auth/token requests across multiple mounted useAuth() hooks
+let inFlightTokenPromise: Promise<string | null> | null = null;
+let inFlightTokenEmail: string | null = null;
+
+async function fetchSyncedJwt(payload: {
+  email: string;
+  name?: string;
+  role?: string;
+  image?: string;
+}): Promise<string | null> {
+  if (inFlightTokenPromise && inFlightTokenEmail === payload.email) {
+    return inFlightTokenPromise;
+  }
+
+  inFlightTokenEmail = payload.email;
+  inFlightTokenPromise = fetch(`${SERVER_URL}/api/auth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => res.json())
+    .then((data) => (data.success && data.token ? (data.token as string) : null))
+    .finally(() => {
+      inFlightTokenPromise = null;
+      inFlightTokenEmail = null;
+    });
+
+  return inFlightTokenPromise;
+}
+
 /**
  * Custom hook to get active user details, roles, and JWT token for server requests
  */
@@ -50,21 +80,16 @@ export function useAuth() {
     async function syncToken() {
       if (user?.email) {
         try {
-          const res = await fetch(`${SERVER_URL}/api/auth/token`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: user.email,
-              name: user.name,
-              role: user.role,
-              image: user.image,
-            }),
+          const syncedToken = await fetchSyncedJwt({
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            image: user.image,
           });
-          const data = await res.json();
-          if (data.success && data.token) {
-            setToken(data.token);
+          if (syncedToken) {
+            setToken(syncedToken);
             if (typeof window !== "undefined") {
-              localStorage.setItem("pizzahub_jwt", data.token);
+              localStorage.setItem("pizzahub_jwt", syncedToken);
             }
           }
         } catch (err) {
