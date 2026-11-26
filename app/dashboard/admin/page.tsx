@@ -57,11 +57,13 @@ export default function AdminOverviewPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
+    if (!jwtToken) return;
+
     async function loadStats() {
       setIsLoading(true);
       try {
         const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://pizzahub-server-pearl.vercel.app";
-        const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
 
         const res = await fetch(`${serverUrl}/api/admin/stats`, {
           headers: {

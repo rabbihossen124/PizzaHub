@@ -104,6 +104,8 @@ export default function CustomerDashboardPage() {
   };
 
   useEffect(() => {
+    const jwtToken = token || (typeof window !== "undefined" ? localStorage.getItem("pizzahub_jwt") : "");
+    if (!jwtToken) return;
     fetchDashboardData();
   }, [token]);
 

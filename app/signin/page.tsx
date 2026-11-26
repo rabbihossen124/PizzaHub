@@ -89,6 +89,11 @@ function SignInContent() {
         destination = "/dashboard/customer";
       }
 
+      // Clear any stale JWT from a previous session so dashboard waits for fresh token sync
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("pizzahub_jwt");
+      }
+
       // Full navigation ensures cookies and auth session are freshly committed
       window.location.href = destination;
     } catch (err: unknown) {
